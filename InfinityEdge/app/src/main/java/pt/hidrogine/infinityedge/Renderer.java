@@ -1,4 +1,4 @@
-package pt.ist.bombraider.activity;
+package pt.hidrogine.infinityedge;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -8,12 +8,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 import hidrogine.math.BoundingFrustum;
 import hidrogine.math.Matrix;
-import pt.ist.bombraider.R;
-import pt.ist.bombraider.dto.BoxDto;
-import pt.ist.bombraider.model.Model3D;
-import pt.ist.bombraider.util.Camera;
-import pt.ist.bombraider.util.ShaderProgram;
-
+import pt.hidrogine.infinityedge.dto.BoxDto;
+import pt.hidrogine.infinityedge.model.Model3D;
+import pt.hidrogine.infinityedge.util.Camera;
+import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 
 public class Renderer implements GLSurfaceView.Renderer {

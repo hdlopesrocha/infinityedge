@@ -4,11 +4,13 @@ import pt.hidrogine.infinityedge.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 
 /**
@@ -54,6 +56,16 @@ public class MainMenu extends Activity {
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
+
+
+        final Button dummyButton = (Button) findViewById(R.id.dummy_button);
+        dummyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenu.this,Game.class));
+            }
+        });
+
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
