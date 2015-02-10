@@ -21,6 +21,7 @@ public class ShaderProgram {
     private int mMVMatrixHandle;
     private int mLightPosHandle;
     private int mTextureUniformHandle;
+    public int mLightEnabledHandle;
     public int mPositionHandle;
     public int mNormalHandle;
     public int mTextureCoordinateHandle;
@@ -43,6 +44,8 @@ public class ShaderProgram {
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVPMatrix");
         mMVMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVMatrix");
         mLightPosHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_LightPos");
+        mLightEnabledHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_LightEnabled");
+
         mAmbientColor = GLES20.glGetUniformLocation(mProgramHandle, "u_AmbientColor");
         mDiffuseColor = GLES20.glGetUniformLocation(mProgramHandle, "u_DiffuseColor");
 
@@ -64,6 +67,8 @@ public class ShaderProgram {
         // Enable transparency
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+        enableLight();
     }
 
     public int getProgram() {
@@ -149,6 +154,16 @@ public class ShaderProgram {
 
     public void setDiffuseColor(float r, float g, float b, float a) {
         GLES20.glUniform4f(mDiffuseColor, r, g, b, a);
+
+    }
+
+    public void enableLight() {
+        GLES20.glUniform1i(mLightEnabledHandle,1);
+
+    }
+
+    public void disableLight() {
+        GLES20.glUniform1i(mLightEnabledHandle,0);
 
     }
 

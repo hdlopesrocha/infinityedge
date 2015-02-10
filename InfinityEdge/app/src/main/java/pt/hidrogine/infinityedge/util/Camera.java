@@ -54,4 +54,18 @@ public class Camera {
         up_z = 0;
 
     }
+
+    public void lookAt(float x, float y, float z, float ex, float ey, float ez) {
+        eye_x = ex ;
+        eye_y = ey;
+        eye_z = ez;
+        look_x = x;
+        look_y = y;
+        look_z = z;
+        up_x = 0;
+        up_y = 1;
+        up_z = 0;
+
+    }
+
 }
