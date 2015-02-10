@@ -8,8 +8,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
+import hidrogine.math.Camera;
 
-import pt.hidrogine.infinityedge.util.Camera;
 import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
@@ -136,14 +136,13 @@ public class BufferObject {
     }
 
 
-    public void draw(ShaderProgram shader, Camera camera) {
+    public void draw(ShaderProgram shader) {
 
 
         final int stride = (POSITION_DATA_SIZE + NORMAL_DATA_SIZE + TEXTURE_COORDINATE_DATA_SIZE) * BYTES_PER_FLOAT;
 
         //Bind the texture according to the set texture filter
         if (material != null) {
-            shader.applyCamera(camera);
 
             shader.bindTexture(material.texture);
 

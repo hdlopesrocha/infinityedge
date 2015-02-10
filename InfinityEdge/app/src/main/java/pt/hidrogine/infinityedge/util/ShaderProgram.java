@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 
 import java.util.Stack;
 
+import hidrogine.math.Camera;
 import hidrogine.math.IVector3;
 import hidrogine.math.Matrix;
 import hidrogine.math.Vector3;
@@ -14,7 +15,6 @@ import pt.hidrogine.infinityedge.R;
 public class ShaderProgram {
 
     private int mProgramHandle;
-    private Matrix mModelMatrix =  new Matrix();
     private Matrix mProjectionMatrix = new Matrix();
     private Matrix mLightModelMatrix = new Matrix();
     private int mMVPMatrixHandle;
@@ -28,7 +28,6 @@ public class ShaderProgram {
     private int mAmbientColor;
     private int mDiffuseColor;
 
-    Stack<Matrix> matrixStack = new Stack<Matrix>();
 
 
     public ShaderProgram(Context contexts) {
@@ -81,18 +80,19 @@ public class ShaderProgram {
     }
 
 
-    public void applyCamera(Camera cam) {
+    public void applyCamera(Camera cam, Matrix model) {
         Matrix mViewMatrix = cam.getViewMatrix();
         GLES20.glUseProgram(mProgramHandle);
         final IVector3 mLightPosInModelSpace = new Vector3(10.0f, 10.0f, 10.0f);
         mLightModelMatrix.createTranslation(0, 0, -1f);
         final IVector3 mLightPosInWorldSpace = new Matrix().createTranslation(mLightPosInModelSpace).multiply(mLightModelMatrix).getTranslation();
         final IVector3 mLightPosInEyeSpace = new Matrix().createTranslation(mLightPosInWorldSpace).multiply(mViewMatrix).getTranslation();
-        Matrix matrix = new Matrix(mModelMatrix);
-        GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, matrix.multiply(mViewMatrix).toArray(), 0);
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, matrix.multiply(mProjectionMatrix).toArray(), 0);
+        GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, model.multiply(mViewMatrix).toArray(), 0);
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, model.multiply(mProjectionMatrix).toArray(), 0);
         GLES20.glUniform3f(mLightPosHandle, mLightPosInEyeSpace.getX(), mLightPosInEyeSpace.getY(), mLightPosInEyeSpace.getZ());
     }
+
+
 
     public void updateViewPort(int width, int height) {
         // Set the OpenGL viewport to the same size as the surface.
@@ -121,37 +121,6 @@ public class ShaderProgram {
     }
 
 
-    public void pushMatrix() {
-        matrixStack.push(new Matrix(mModelMatrix));
-    }
-
-    public void popMatrix() {
-        if (matrixStack.size() > 0) {
-            mModelMatrix = matrixStack.pop();
-
-        }
-    }
-
-    public void setIdentity() {
-        mModelMatrix.identity();
-    }
-
-    public void scale(float s) {
-        mModelMatrix.scale(s);
-    }
-
-
-
-    public void translate(float x, float y, float z) {
-        mModelMatrix.translate(new Vector3(x, y, z));
-
-    }
-
-    public void rotate(float x, float y, float z) {
-        mModelMatrix.multiply(new Matrix().createFromYawPitchRoll(x, y, z));
-    }
-
-
     public void setDiffuseColor(float r, float g, float b, float a) {
         GLES20.glUniform4f(mDiffuseColor, r, g, b, a);
 
@@ -172,7 +141,5 @@ public class ShaderProgram {
 
     }
 
-    public void updateCamera(Camera camera) {
-        camera.update(mProjectionMatrix);
-    }
+
 }

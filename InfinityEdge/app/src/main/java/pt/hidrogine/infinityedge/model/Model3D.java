@@ -1,6 +1,7 @@
 package pt.hidrogine.infinityedge.model;
 
 import android.content.Context;
+import hidrogine.math.Camera;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import pt.hidrogine.infinityedge.util.Camera;
 import pt.hidrogine.infinityedge.util.FileString;
 import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
+
 
 public class Model3D extends Model {
 
@@ -130,7 +131,7 @@ public class Model3D extends Model {
     public void draw(ShaderProgram shader,Camera camera) {
         for (Group g : groups) {
             for (BufferObject sg : g.subGroups) {
-                sg.draw(shader,camera);
+                sg.draw(shader);
             }
         }
     }

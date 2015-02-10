@@ -83,7 +83,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="hidrogin.math" level="project" />
+    <orderEntry type="library" exported="" name="hidrogine.math" level="project" />
   </component>
 </module>
 

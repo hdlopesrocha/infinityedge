@@ -1,8 +1,9 @@
 package pt.hidrogine.infinityedge.model;
 
 
-import pt.hidrogine.infinityedge.util.Camera;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
+import hidrogine.math.Camera;
+
 
 public abstract class Model {
 
