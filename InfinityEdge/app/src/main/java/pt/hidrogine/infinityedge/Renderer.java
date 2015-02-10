@@ -8,8 +8,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 import hidrogine.math.Camera;
 import hidrogine.math.Matrix;
+import pt.hidrogine.infinityedge.dto.AsteroidOneDto;
 import pt.hidrogine.infinityedge.dto.FighterDto;
-import pt.hidrogine.infinityedge.dto.SkyDto;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
@@ -19,20 +19,19 @@ public class Renderer implements GLSurfaceView.Renderer {
     private Camera camera = new Camera();
     private Game game;
     private Model3D fighter;
+    private Model3D asteroid1;
+
     private Model3D sky;
 
 
-    FighterDto obj1 = new FighterDto(0l, 0f, 0f);
-    SkyDto obj2 = new SkyDto(0l, 0f, 0f);
-
+    FighterDto obj1 = new FighterDto(0, 0, 0);
+    AsteroidOneDto ast1 = new AsteroidOneDto(0,3,0);
     public void init(Game activity) {
         game = activity;
-
         fighter = new Model3D(activity, R.raw.fighter, 0.02f);
-        sky = new Model3D(activity, R.raw.sky1, 0.3f);
-
+        asteroid1 = new Model3D(activity,R.raw.asteroid1,0.5f);
+        sky = new Model3D(activity, R.raw.sky1, 1f);
         camera.lookAt(4,1,4,0,0,0);
-
     }
 
 
@@ -64,18 +63,27 @@ public class Renderer implements GLSurfaceView.Renderer {
 
         shader.applyCamera(camera,new Matrix().identity());
         camera.lookAt((float) (4 * Math.sin(angle)), 1, (float) (4 * Math.cos(angle)),0, 0, 0);
-
-
         GLES20.glDisable(GL10.GL_CULL_FACE);
         shader.disableLight();
-        draw(obj2);
+        drawSky();
         shader.enableLight();
         GLES20.glEnable(GL10.GL_CULL_FACE);
 
-        draw(obj1);
 
+        /* DRAW OBJECTS */
+
+        draw(obj1);
+        draw(ast1);
         angle += 0.01f;
 
+    }
+
+
+
+    public void draw(AsteroidOneDto obj) {
+        Matrix mat = new Matrix().createTranslation(obj.getX(),obj.getY(),obj.getZ());
+        shader.applyCamera(camera,mat);
+        asteroid1.draw(shader, camera);
     }
 
 
@@ -85,8 +93,8 @@ public class Renderer implements GLSurfaceView.Renderer {
         fighter.draw(shader, camera);
     }
 
-    public void draw(SkyDto obj) {
-        Matrix mat = new Matrix().createTranslation(obj.getX(),obj.getY(),obj.getZ());
+    public void drawSky() {
+        Matrix mat = new Matrix().createTranslation(camera.getPosition());
         shader.applyCamera(camera,mat);
         sky.draw(shader, camera);
     }
