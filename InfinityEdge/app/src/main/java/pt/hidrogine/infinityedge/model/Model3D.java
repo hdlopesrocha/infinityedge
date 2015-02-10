@@ -2,27 +2,25 @@ package pt.hidrogine.infinityedge.model;
 
 import android.content.Context;
 import hidrogine.math.Camera;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeMap;
-
-import pt.hidrogine.infinityedge.util.FileString;
 import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 
 
 public class Model3D extends Model {
 
     public ArrayList<Group> groups = new ArrayList<Group>();
 
+    public Model3D(final Context context, final int resource, final float scale) {
 
-    public Model3D(Context context, int resource, float scale) {
+
         TreeMap<String, Material> materials = new TreeMap<String, Material>();
         try {
+  /*
             JSONObject jObject = new JSONObject(FileString.read(context, resource));
             {
                 JSONObject jMats = jObject.getJSONObject("materials");
@@ -78,57 +76,89 @@ public class Model3D extends Model {
 
                 }
             }
-            {
-                JSONObject jGroups = jObject.getJSONObject("groups");
+*/
 
-
-                Iterator<String> iterator = jGroups.keys();
-                while (iterator.hasNext()) {
-                    String key = iterator.next();
-
-                    Group currentGroup = new Group();
-                    groups.add(currentGroup);
-                    JSONArray subGroups = jGroups.getJSONArray(key);
-                    currentGroup.name = key;
-                    for (int j = 0; j < subGroups.length(); ++j) {
-                        JSONObject jSubGroup = subGroups.getJSONObject(j);
-                        BufferObject currentSubGroup = new BufferObject();
-                        currentGroup.subGroups.add(currentSubGroup);
-
-                        if (jSubGroup.has("mm")) {
-                            currentSubGroup.setMaterial(materials.get(jSubGroup.getString("mm")));
-                        }
-                        JSONArray vv = jSubGroup.getJSONArray("vv");
-                        for (int k = 0; k < vv.length(); ++k) {
-                            float val = (float) vv.getDouble(k) * scale;
-                            if (k % 3 == 1) {
-                                currentGroup.maxY = Math.max(currentGroup.maxY, val);
+            JsonParser jsonParser = new JsonFactory().createParser(context.getResources().openRawResource(resource));
+            //loop through the JsonTokens
+            while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+                String name = jsonParser.getCurrentName();
+                if ("materials".equals(name)) {
+                    jsonParser.nextToken();
+                    while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+                        String materialName = jsonParser.getCurrentName();
+                        Material currentMaterial = new Material();
+                        materials.put(materialName, currentMaterial);
+                        jsonParser.nextToken();
+                        while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+                            String key = jsonParser.getCurrentName();
+                            jsonParser.nextToken();
+                            String value = jsonParser.getValueAsString();
+                            if ("map_Kd".equals(key)) {
+                                currentMaterial.setTexture(context, value);
                             }
-                            currentSubGroup.addVertex(val);
+                            System.out.println(materialName + " | " + key + " -> " + value);
                         }
-                        JSONArray vn = jSubGroup.getJSONArray("vn");
-                        for (int k = 0; k < vn.length(); ++k) {
-                            currentSubGroup.addNormal((float) vn.getDouble(k));
+                    }
+                } else if ("groups".equals(name)) {
+                    jsonParser.nextToken(); // {
+                    while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+                        String groupName = jsonParser.getCurrentName();
+                        jsonParser.nextToken(); // [
+                        Group currentGroup = new Group();
+                        groups.add(currentGroup);
+                        currentGroup.name = groupName;
+                        while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+                            jsonParser.nextToken(); // {
+                            BufferObject currentSubGroup = new BufferObject();
+                            currentGroup.subGroups.add(currentSubGroup);
+                            while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+                                String key = jsonParser.getCurrentName();
+                                if ("mm".equals(key)) {
+                                    String mm = jsonParser.getValueAsString();
+                                    currentSubGroup.setMaterial(materials.get(mm));
+                                } else if ("vv".equals(key)) {
+                                    int k = 0;
+                                    jsonParser.nextToken(); // [
+                                    while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+                                        float val = jsonParser.getFloatValue() * scale;
+                                        if (k % 3 == 1) {
+                                            currentGroup.maxY = Math.max(currentGroup.maxY, val);
+                                        }
+                                        currentSubGroup.addVertex(val);
+                                        ++k;
+                                    }
+                                } else if ("vn".equals(key)) {
+                                    jsonParser.nextToken(); // [
+                                    while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+                                        float val = jsonParser.getFloatValue();
+                                        currentSubGroup.addNormal(val);
+                                    }
+                                } else if ("vt".equals(key)) {
+                                    jsonParser.nextToken(); // [
+                                    while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+                                        float val = jsonParser.getFloatValue();
+                                        currentSubGroup.addTexture(val);
+                                    }
+                                } else if ("ii".equals(key)) {
+                                    jsonParser.nextToken(); // [
+                                    while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+                                        short val = jsonParser.getShortValue();
+                                        currentSubGroup.addIndex(val);
+                                    }
+                                }
+                            }
+                            currentSubGroup.buildBuffer();
                         }
-                        JSONArray vt = jSubGroup.getJSONArray("vt");
-                        for (int k = 0; k < vt.length(); ++k) {
-                            currentSubGroup.addTexture((float) vt.getDouble(k));
-                        }
-                        JSONArray ii = jSubGroup.getJSONArray("ii");
-                        for (int k = 0; k < ii.length(); ++k) {
-                            currentSubGroup.addIndex((short) ii.getInt(k));
-                        }
-
-                        currentSubGroup.buildBuffer();
                     }
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void draw(ShaderProgram shader,Camera camera) {
+    public void draw(ShaderProgram shader, Camera camera) {
         for (Group g : groups) {
             for (BufferObject sg : g.subGroups) {
                 sg.draw(shader);

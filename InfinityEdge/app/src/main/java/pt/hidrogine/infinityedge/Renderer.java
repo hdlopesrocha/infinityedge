@@ -8,7 +8,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 import hidrogine.math.Camera;
 import hidrogine.math.Matrix;
+import pt.hidrogine.infinityedge.dto.AsteroidFourDto;
 import pt.hidrogine.infinityedge.dto.AsteroidOneDto;
+import pt.hidrogine.infinityedge.dto.AsteroidThreeDto;
+import pt.hidrogine.infinityedge.dto.AsteroidTwoDto;
 import pt.hidrogine.infinityedge.dto.FighterDto;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
@@ -20,16 +23,28 @@ public class Renderer implements GLSurfaceView.Renderer {
     private Game game;
     private Model3D fighter;
     private Model3D asteroid1;
-
+    private Model3D asteroid2;
+    private Model3D asteroid3;
+    private Model3D asteroid4;
     private Model3D sky;
 
 
     FighterDto obj1 = new FighterDto(0, 0, 0);
     AsteroidOneDto ast1 = new AsteroidOneDto(0,3,0);
+    AsteroidTwoDto ast2 = new AsteroidTwoDto(0,0,3);
+    AsteroidThreeDto ast3 = new AsteroidThreeDto(0,-3,0);
+    AsteroidFourDto ast4 = new AsteroidFourDto(0,0,-3);
+
+
     public void init(Game activity) {
         game = activity;
         fighter = new Model3D(activity, R.raw.fighter, 0.02f);
-        asteroid1 = new Model3D(activity,R.raw.asteroid1,0.5f);
+
+        asteroid1 = new Model3D(activity,R.raw.asteroid1,0.4f);
+        asteroid2 = new Model3D(activity,R.raw.asteroid2,0.7f);
+        asteroid3 = new Model3D(activity,R.raw.asteroid3,0.8f);
+        asteroid4 = new Model3D(activity,R.raw.asteroid4,0.008f);
+
         sky = new Model3D(activity, R.raw.sky1, 1f);
         camera.lookAt(4,1,4,0,0,0);
     }
@@ -74,16 +89,37 @@ public class Renderer implements GLSurfaceView.Renderer {
 
         draw(obj1);
         draw(ast1);
+        draw(ast2);
+        draw(ast3);
+        draw(ast4);
         angle += 0.01f;
 
     }
 
+    public void draw(AsteroidThreeDto obj) {
+        Matrix mat = new Matrix().createTranslation(obj.getX(),obj.getY(),obj.getZ());
+        shader.applyCamera(camera,mat);
+        asteroid3.draw(shader, camera);
+    }
+
+    public void draw(AsteroidTwoDto obj) {
+        Matrix mat = new Matrix().createTranslation(obj.getX(),obj.getY(),obj.getZ());
+        shader.applyCamera(camera,mat);
+        asteroid2.draw(shader, camera);
+    }
 
 
     public void draw(AsteroidOneDto obj) {
         Matrix mat = new Matrix().createTranslation(obj.getX(),obj.getY(),obj.getZ());
         shader.applyCamera(camera,mat);
         asteroid1.draw(shader, camera);
+    }
+
+
+    public void draw(AsteroidFourDto obj) {
+        Matrix mat = new Matrix().createTranslation(obj.getX(),obj.getY(),obj.getZ());
+        shader.applyCamera(camera,mat);
+        asteroid4.draw(shader, camera);
     }
 
 

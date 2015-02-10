@@ -19,11 +19,13 @@ public class Material {
 
     }
 
+
     public void setTexture(Context context, String mapKd) {
         mapKd = mapKd.split("\\.")[0];
 
         try {
-            texture = TextureLoader.load(context, context.getResources().getIdentifier("drawable/" + mapKd, "drawable", "pt.hidrogine.infinityedge"));
+
+            texture = TextureLoader.load(context,mapKd );
         } catch (Exception e) {
             e.printStackTrace();
         }
