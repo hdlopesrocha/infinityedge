@@ -38,7 +38,7 @@
         </FrameLayout>
 <!--
     <fragment
-        android:name="pt.hidrogine.infinityedge.Home"
+        android:name="pt.hidrogine.infinityedge.activity.Home"
         android:id="@+id/home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,7 +46,7 @@
 -->
 <!--
     <fragment
-        android:name="pt.hidrogine.infinityedge.Style"
+        android:name="pt.hidrogine.infinityedge.activity.Style"
         android:id="@+id/style"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

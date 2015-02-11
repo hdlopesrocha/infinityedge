@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 
 import pt.hidrogine.infinityedge.R;
-import pt.hidrogine.infinityedge.Style;
 
 /**
  * Created by Henrique on 11/02/2015.

@@ -1,4 +1,4 @@
-package pt.hidrogine.infinityedge;
+package pt.hidrogine.infinityedge.activity;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -8,6 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import hidrogine.math.Camera;
 import hidrogine.math.Matrix;
+import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.dto.AsteroidFourDto;
 import pt.hidrogine.infinityedge.dto.AsteroidOneDto;
 import pt.hidrogine.infinityedge.dto.AsteroidThreeDto;

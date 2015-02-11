@@ -1,12 +1,12 @@
-package pt.hidrogine.infinityedge;
+package pt.hidrogine.infinityedge.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+
+import pt.hidrogine.infinityedge.R;
 
 
 public class MainMenu extends Activity{

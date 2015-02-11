@@ -1,6 +1,5 @@
-package pt.hidrogine.infinityedge;
+package pt.hidrogine.infinityedge.activity;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -12,6 +11,8 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.FrameLayout;
+
+import pt.hidrogine.infinityedge.R;
 
 
 public class Game extends FragmentActivity implements  Home.OnFragmentInteractionListener, Style.OnFragmentInteractionListener{

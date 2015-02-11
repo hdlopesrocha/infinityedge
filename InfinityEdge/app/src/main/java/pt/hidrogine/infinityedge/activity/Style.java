@@ -1,22 +1,22 @@
-package pt.hidrogine.infinityedge;
+package pt.hidrogine.infinityedge.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.util.BaseFragment;
 
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link pt.hidrogine.infinityedge.Style.OnFragmentInteractionListener} interface
+ * {@link Style.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link pt.hidrogine.infinityedge.Style#newInstance} factory method to
+ * Use the {@link Style#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class Style extends BaseFragment {
