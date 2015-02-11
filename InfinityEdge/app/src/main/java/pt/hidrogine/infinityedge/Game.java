@@ -2,15 +2,19 @@ package pt.hidrogine.infinityedge;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.widget.FrameLayout;
 
 
-
-public class Game extends Activity {
+public class Game extends FragmentActivity implements  Home.OnFragmentInteractionListener, Style.OnFragmentInteractionListener{
     private GLSurfaceView mGLSurfaceView;
 
     public static Game activity;
@@ -47,6 +51,20 @@ public class Game extends Activity {
             return;
         }
 
+
+        FrameLayout ui = (FrameLayout) findViewById(R.id.ui);
+
+        Fragment newFragment = new Home();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack
+        transaction.replace(R.id.ui, newFragment);
+        transaction.addToBackStack(null);
+
+// Commit the transaction
+        transaction.commit();
+
     }
 
 
@@ -80,6 +98,8 @@ public class Game extends Activity {
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
-
+    }
 }
