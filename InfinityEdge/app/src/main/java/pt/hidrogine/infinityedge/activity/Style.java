@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import pt.hidrogine.infinityedge.R;
-import pt.hidrogine.infinityedge.util.BaseFragment;
 
 
 /**

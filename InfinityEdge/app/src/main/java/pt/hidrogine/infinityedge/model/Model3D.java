@@ -1,9 +1,17 @@
 package pt.hidrogine.infinityedge.model;
 
 import android.content.Context;
+
+import hidrogine.math.BoundingSphere;
 import hidrogine.math.Camera;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
+
+import hidrogine.math.IBoundingSphere;
+import hidrogine.math.IModel3D;
+import hidrogine.math.IVector3;
+import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 import com.fasterxml.jackson.core.JsonFactory;
@@ -11,9 +19,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
 
-public class Model3D extends Model {
+public class Model3D extends Model implements IModel3D{
 
     public ArrayList<Group> groups = new ArrayList<Group>();
+    private IBoundingSphere container;
 
     public Model3D(final Context context, final int resource, final float scale) {
 
@@ -77,6 +86,7 @@ public class Model3D extends Model {
                 }
             }
 */
+            final List<IVector3> points = new ArrayList<IVector3>();
 
             JsonParser jsonParser = new JsonFactory().createParser(context.getResources().openRawResource(resource));
             //loop through the JsonTokens
@@ -118,14 +128,25 @@ public class Model3D extends Model {
                                     currentSubGroup.setMaterial(materials.get(mm));
                                 } else if ("vv".equals(key)) {
                                     int k = 0;
+                                    float x=0, y=0, z=0;
+
                                     jsonParser.nextToken(); // [
                                     while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                                         float val = jsonParser.getFloatValue() * scale;
-                                        if (k % 3 == 1) {
-                                            currentGroup.maxY = Math.max(currentGroup.maxY, val);
+                                        switch (k){
+                                            case 0 : x = val; break;
+                                            case 1 : y = val; currentGroup.maxY = Math.max(currentGroup.maxY, val);break;
+                                            case 2 : z = val;break;
+                                        }
+                                        if(k==2){
+                                            k=0;
+                                            points.add(new Vector3(x,y,z));
+                                        }
+                                        else {
+                                            ++k;
                                         }
                                         currentSubGroup.addVertex(val);
-                                        ++k;
+
                                     }
                                 } else if ("vn".equals(key)) {
                                     jsonParser.nextToken(); // [
@@ -150,6 +171,7 @@ public class Model3D extends Model {
                             currentSubGroup.buildBuffer();
                         }
                     }
+                    container = new BoundingSphere().createFromPoints(points);
                 }
             }
 
@@ -164,5 +186,10 @@ public class Model3D extends Model {
                 sg.draw(shader);
             }
         }
+    }
+
+    @Override
+    public IBoundingSphere getContainer() {
+        return container;
     }
 }

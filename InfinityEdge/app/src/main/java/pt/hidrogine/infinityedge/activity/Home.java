@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import pt.hidrogine.infinityedge.R;
-import pt.hidrogine.infinityedge.util.BaseFragment;
 
 
 /**
@@ -77,7 +76,7 @@ public class Home extends BaseFragment {
         singlePlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replace(new Style());
+                ((Game)getActivity()).replace(new Style());
             }
         });
         return rootView;
