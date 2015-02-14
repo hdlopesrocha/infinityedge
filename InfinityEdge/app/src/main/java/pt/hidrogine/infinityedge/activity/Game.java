@@ -17,7 +17,7 @@ import java.util.Stack;
 import pt.hidrogine.infinityedge.R;
 
 
-public class Game extends FragmentActivity implements  Home.OnFragmentInteractionListener, Style.OnFragmentInteractionListener{
+public class Game extends FragmentActivity implements  Home.OnFragmentInteractionListener, Style.OnFragmentInteractionListener, Control.OnFragmentInteractionListener{
     private GLSurfaceView mGLSurfaceView;
 
     public static Game activity;
@@ -72,7 +72,7 @@ public class Game extends FragmentActivity implements  Home.OnFragmentInteractio
     }
 
     public void revert(){
-        fragments.pop();
+        fragments.pop().onEnd();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 // Replace whatever is in the fragment_container view with this fragment,
 // and add the transaction to the back stack

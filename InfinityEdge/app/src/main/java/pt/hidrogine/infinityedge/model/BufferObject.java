@@ -14,10 +14,10 @@ import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class BufferObject {
-    private ArrayList<Float> vertexData = new ArrayList<Float>();
-    private ArrayList<Float> normalData = new ArrayList<Float>();
-    private ArrayList<Float> textureData = new ArrayList<Float>();
-    private ArrayList<Short> indexData = new ArrayList<Short>();
+    private final static ArrayList<Float> vertexData = new ArrayList<Float>(100000);
+    private final static ArrayList<Float> normalData = new ArrayList<Float>(100000);
+    private final static ArrayList<Float> textureData = new ArrayList<Float>(100000);
+    private final static ArrayList<Short> indexData = new ArrayList<Short>(100000);
     private Material material;
     static final int POSITION_DATA_SIZE = 3;
     static final int NORMAL_DATA_SIZE = 3;
@@ -41,29 +41,12 @@ public class BufferObject {
         vertexData.add(f);
     }
 
-    public void addVertex(float x, float y, float z) {
-        vertexData.add(x);
-        vertexData.add(y);
-        vertexData.add(z);
-    }
-
     public void addNormal(float f) {
         normalData.add(f);
     }
 
-    public void addNormal(float x, float y, float z) {
-        normalData.add(x);
-        normalData.add(y);
-        normalData.add(z);
-    }
-
     public void addTexture(float f) {
         textureData.add(f);
-    }
-
-    public void addTexture(float x, float y) {
-        textureData.add(x);
-        textureData.add(y);
     }
 
     public void addIndex(short f) {
@@ -71,21 +54,26 @@ public class BufferObject {
     }
 
     public void buildBuffer() {
-        ArrayList<Float> packedVector = new ArrayList<Float>();
+        int vv=0,vt=0,vn=0;
         vbo_size = vertexData.size();
-        while (vertexData.size() > 0 && normalData.size() > 0 && textureData.size() > 0) {
-            packedVector.add(vertexData.remove(0));
-            packedVector.add(vertexData.remove(0));
-            packedVector.add(vertexData.remove(0));
-            packedVector.add(normalData.remove(0));
-            packedVector.add(normalData.remove(0));
-            packedVector.add(normalData.remove(0));
-            packedVector.add(textureData.remove(0));
-            packedVector.add(textureData.remove(0));
+        int size = vertexData.size()+normalData.size()+textureData.size();
+        vertexBuffer = ByteBuffer.allocateDirect(size * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+
+
+        while ( vv < vertexData.size() && vn < normalData.size()  && vt < textureData.size()) {
+            vertexBuffer.put(vertexData.get(vv++));
+            vertexBuffer.put(vertexData.get(vv++));
+            vertexBuffer.put(vertexData.get(vv++));
+            vertexBuffer.put(normalData.get(vn++));
+            vertexBuffer.put(normalData.get(vn++));
+            vertexBuffer.put(normalData.get(vn++));
+            vertexBuffer.put(textureData.get(vt++));
+            vertexBuffer.put(textureData.get(vt++));
         }
         index_count = indexData.size();
-        vertexBuffer = ByteBuffer.allocateDirect(packedVector.size() * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        vertexBuffer.put(toFloatArray(packedVector)).position(0);
+        vertexBuffer.position(0);
+
+
 
         indexBuffer = ByteBuffer.allocateDirect(indexData.size() * 2).order(ByteOrder.nativeOrder()).asShortBuffer();
         indexBuffer.put(toShortArray(indexData)).position(0);
@@ -95,10 +83,7 @@ public class BufferObject {
         normalData.clear();
         textureData.clear();
         indexData.clear();
-        vertexData = null;
-        normalData = null;
-        textureData = null;
-        indexData = null;
+
 
         vbo = IntBuffer.allocate(2);
         GLES20.glGenBuffers(2, vbo);
@@ -120,13 +105,6 @@ public class BufferObject {
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-
-    private static float[] toFloatArray(ArrayList<Float> list) {
-        float[] ret = new float[list.size()];
-        for (int i = 0; i < ret.length; ++i)
-            ret[i] = list.get(i);
-        return ret;
-    }
 
     private static short[] toShortArray(ArrayList<Short> list) {
         short[] ret = new short[list.size()];

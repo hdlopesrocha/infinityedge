@@ -11,6 +11,8 @@ import hidrogine.math.Matrix;
 import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.scene.Background;
+import pt.hidrogine.infinityedge.scene.Demo;
+import pt.hidrogine.infinityedge.scene.Scene;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 
@@ -24,8 +26,9 @@ public class Renderer implements GLSurfaceView.Renderer {
     public static Model3D asteroid4;
     public static Model3D sky;
 
-
-    private Background background;
+    long time;
+    long oldTime;
+    public static Scene currentScene;
     public static final Camera camera = new Camera();
 
 
@@ -40,7 +43,9 @@ public class Renderer implements GLSurfaceView.Renderer {
 
         sky = new Model3D(activity, R.raw.sky1, 1f);
 
-        background = new Background();
+        currentScene = new Background();
+        time = getTime();
+        oldTime = time;
     }
 
 
@@ -59,13 +64,17 @@ public class Renderer implements GLSurfaceView.Renderer {
     }
 
 
-
+    public long getTime() {
+        return System.nanoTime() / 1000000;
+    }
 
     @Override
     public void onDrawFrame(GL10 glUnused) {
-        background.update();
+        time = getTime();
+        currentScene.update((time-oldTime)/1000f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        background.draw(shader);
+        currentScene.draw(shader);
+        oldTime = time;
     }
 
 

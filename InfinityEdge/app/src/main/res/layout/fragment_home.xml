@@ -42,7 +42,13 @@
             android:id="@+id/button2"
             android:layout_gravity="center" />
 
-
+        <Button
+            style="@style/main_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Demo"
+            android:id="@+id/demo"
+            android:layout_gravity="center" />
 
         </LinearLayout>
 

@@ -1,28 +1,25 @@
 package pt.hidrogine.infinityedge.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.scene.Background;
-import pt.hidrogine.infinityedge.scene.Demo;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.support.v4.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Home.OnFragmentInteractionListener} interface
+ * {@link pt.hidrogine.infinityedge.activity.Control.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Home#newInstance} factory method to
+ * Use the {@link pt.hidrogine.infinityedge.activity.Control#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Home extends BaseFragment {
+public class Control extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -43,8 +40,8 @@ public class Home extends BaseFragment {
      * @return A new instance of fragment Home.
      */
     // TODO: Rename and change types and number of parameters
-    public static Home newInstance(String param1, String param2) {
-        Home fragment = new Home();
+    public static Control newInstance(String param1, String param2) {
+        Control fragment = new Control();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -52,7 +49,7 @@ public class Home extends BaseFragment {
         return fragment;
     }
 
-    public Home() {
+    public Control() {
         // Required empty public constructor
     }
 
@@ -63,35 +60,13 @@ public class Home extends BaseFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
-        Button singlePlayer = (Button)  rootView.findViewById(R.id.single_player);
-        singlePlayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((Game)getActivity()).replace(new Style());
-            }
-        });
-
-        Button demo = (Button)  rootView.findViewById(R.id.demo);
-        demo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((Game)getActivity()).replace(new Control());
-                Renderer.currentScene = new Demo();
-            }
-        });
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_controls, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -120,7 +95,7 @@ public class Home extends BaseFragment {
 
     @Override
     public void onEnd() {
-
+        Renderer.currentScene = new Background();
     }
 
     /**

@@ -86,7 +86,6 @@ public class Model3D extends Model implements IModel3D{
                 }
             }
 */
-            final List<IVector3> points = new ArrayList<IVector3>();
 
             JsonParser jsonParser = new JsonFactory().createParser(context.getResources().openRawResource(resource));
             //loop through the JsonTokens
@@ -110,6 +109,7 @@ public class Model3D extends Model implements IModel3D{
                         }
                     }
                 } else if ("groups".equals(name)) {
+                    final List<IVector3> points = new ArrayList<IVector3>();
                     jsonParser.nextToken(); // {
                     while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
                         String groupName = jsonParser.getCurrentName();
@@ -121,6 +121,7 @@ public class Model3D extends Model implements IModel3D{
                             jsonParser.nextToken(); // {
                             BufferObject currentSubGroup = new BufferObject();
                             currentGroup.subGroups.add(currentSubGroup);
+                            System.out.println("JSON INIT");
                             while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
                                 String key = jsonParser.getCurrentName();
                                 if ("mm".equals(key)) {
@@ -168,7 +169,9 @@ public class Model3D extends Model implements IModel3D{
                                     }
                                 }
                             }
+                            System.out.println("JSON END");
                             currentSubGroup.buildBuffer();
+                            System.out.println("JSON BUILD BUFFER");
                         }
                     }
                     container = new BoundingSphere().createFromPoints(points);

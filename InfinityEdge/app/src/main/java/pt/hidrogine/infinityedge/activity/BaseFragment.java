@@ -8,7 +8,8 @@ import pt.hidrogine.infinityedge.R;
 /**
  * Created by Henrique on 11/02/2015.
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
+    public abstract void onEnd();
 
 }
