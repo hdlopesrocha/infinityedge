@@ -8,7 +8,6 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
-import hidrogine.math.Camera;
 
 import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;

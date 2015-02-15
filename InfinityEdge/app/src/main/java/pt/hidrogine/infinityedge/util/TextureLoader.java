@@ -8,8 +8,6 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
-import java.io.InputStream;
-
 
 public class TextureLoader {
 

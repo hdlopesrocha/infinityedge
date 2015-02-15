@@ -1,7 +1,6 @@
 package pt.hidrogine.infinityedge.activity;
 
 import android.app.ActivityManager;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
@@ -10,7 +9,6 @@ import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.FrameLayout;
 
 import java.util.Stack;
 

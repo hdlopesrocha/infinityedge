@@ -3,8 +3,6 @@ package pt.hidrogine.infinityedge.util;
 import android.content.Context;
 import android.opengl.GLES20;
 
-import java.util.Stack;
-
 import hidrogine.math.Camera;
 import hidrogine.math.IVector3;
 import hidrogine.math.Matrix;

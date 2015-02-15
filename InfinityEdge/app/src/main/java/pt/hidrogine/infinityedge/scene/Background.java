@@ -5,17 +5,11 @@ import android.opengl.GLES20;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import hidrogine.math.BoundingFrustum;
-import hidrogine.math.Camera;
-import hidrogine.math.IBoundingSphere;
 import hidrogine.math.Matrix;
-import hidrogine.math.Space;
 import hidrogine.math.Vector3;
-import hidrogine.math.VisibleObjectHandler;
 import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.dto.Asteroid;
 import pt.hidrogine.infinityedge.dto.Object3D;
-import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class Background extends Scene {

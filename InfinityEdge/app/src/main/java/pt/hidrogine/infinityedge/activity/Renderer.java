@@ -11,7 +11,6 @@ import hidrogine.math.Matrix;
 import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.scene.Background;
-import pt.hidrogine.infinityedge.scene.Demo;
 import pt.hidrogine.infinityedge.scene.Scene;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
