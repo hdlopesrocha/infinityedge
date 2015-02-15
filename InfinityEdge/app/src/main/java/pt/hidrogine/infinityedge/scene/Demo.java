@@ -2,6 +2,7 @@ package pt.hidrogine.infinityedge.scene;
 
 
 import android.opengl.GLES20;
+import android.os.Debug;
 
 import java.util.Random;
 
@@ -23,12 +24,16 @@ public class Demo extends Scene {
     public Demo(){
         fighter = new Object3D(new Vector3(0,0,0), Renderer.fighter);
         fighter.insert(space);
-
-        int size = 64;
-        for(int i =0; i < 128 ; ++i) {
+      //  Debug.startMethodTracing("myapp");
+        int size = 1024;
+        for(int i =0; i < 10000 ; ++i) {
             new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid1).insert(space);
             new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid2).insert(space);
+            if(i%100==0)
+            System.out.println("i="+i);
         }
+       // Debug.stopMethodTracing();
+
     }
 
     float getRandom(){

@@ -35,10 +35,10 @@ public class Renderer implements GLSurfaceView.Renderer {
         game = activity;
         fighter = new Model3D(activity, R.raw.fighter, 0.02f);
 
-        asteroid1 = new Model3D(activity,R.raw.asteroid1,0.4f);
-        asteroid2 = new Model3D(activity,R.raw.asteroid2,0.7f);
-        asteroid3 = new Model3D(activity,R.raw.asteroid3,0.8f);
-        asteroid4 = new Model3D(activity,R.raw.asteroid4,0.008f);
+        asteroid1 = new Model3D(activity,R.raw.asteroid1,0.8f);
+        asteroid2 = new Model3D(activity,R.raw.asteroid2,1.4f);
+        asteroid3 = new Model3D(activity,R.raw.asteroid3,1.6f);
+        asteroid4 = new Model3D(activity,R.raw.asteroid4,0.016f);
 
         sky = new Model3D(activity, R.raw.sky1, 1f);
 

@@ -19,10 +19,10 @@ public class Background extends Scene {
 
     public Background(){
         new Object3D(new Vector3(0,0,0), Renderer.fighter).insert(space);
-        new Asteroid(new Vector3(3,0,0), Renderer.asteroid1).insert(space);
-        new Asteroid(new Vector3(-3,0,0), Renderer.asteroid2).insert(space);
-        new Asteroid(new Vector3(0,0,3), Renderer.asteroid3).insert(space);
-        new Asteroid(new Vector3(0,0,-3), Renderer.asteroid4).insert(space);
+        new Asteroid(new Vector3(6,0,0), Renderer.asteroid1).insert(space);
+        new Asteroid(new Vector3(-6,0,0), Renderer.asteroid2).insert(space);
+        new Asteroid(new Vector3(0,0,6), Renderer.asteroid3).insert(space);
+        new Asteroid(new Vector3(0,0,-6), Renderer.asteroid4).insert(space);
     }
 
     @Override
