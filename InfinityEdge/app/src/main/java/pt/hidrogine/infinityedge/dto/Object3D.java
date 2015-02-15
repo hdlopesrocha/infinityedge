@@ -11,4 +11,6 @@ public class Object3D extends IObject3D {
     public Object3D(IVector3 position, IModel3D model) {
         super(position, model);
     }
+
+
 }

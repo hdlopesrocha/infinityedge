@@ -15,38 +15,64 @@ import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
 import pt.hidrogine.infinityedge.activity.Renderer;
+import pt.hidrogine.infinityedge.dto.Asteroid;
 import pt.hidrogine.infinityedge.dto.Object3D;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
-public class Demo implements Scene {
-
-    private Space space;
-    private float angle = 0;
+public class Demo extends Scene {
 
     private Random random = new Random();
     private Object3D fighter;
     public Demo(){
-        space = new Space();
         fighter = new Object3D(new Vector3(0,0,0), Renderer.fighter);
         fighter.insert(space);
 
-        for(int i =0; i < 512 ; ++i) {
-            new Object3D(new Vector3(getRandom(), getRandom(), getRandom()), Renderer.asteroid1).insert(space);
-            new Object3D(new Vector3(getRandom(), getRandom(), getRandom()), Renderer.asteroid2).insert(space);
+        int size = 64;
+        for(int i =0; i < 128 ; ++i) {
+            new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid1).insert(space);
+            new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid2).insert(space);
         }
-        Renderer.camera.lookAt(4, 1, 4, 0, 0, 0);
-
     }
 
     float getRandom(){
-        return random.nextFloat()*256-128;
+        return random.nextFloat()-0.5f;
     }
 
     @Override
     public void update(float delta_t){
-        angle += delta_t;
+        controlObject(fighter);
     }
+
+    private void controlObject(Object3D obj){
+      //  obj._aceleration = _object._ray.Direction * _object._physics._acelerationMax * _control.analogAcel.Value;
+        boolean axis_x = false;
+        boolean axis_y = false;
+        float sense = 0.03f;
+        float distance= 256;
+
+        Quaternion quat = new Quaternion().createFromYawPitchRoll(  (float) (Renderer.analogX * (axis_x ? 1 : -1) * sense * Math.PI / 2),
+                                                                    (float) (Renderer.analogY * (axis_y ? 1 : -1) * sense * Math.PI / 2), 0);
+        obj.getRotation().multiply(quat);
+        Quaternion after = obj.getRotation();
+
+
+        Vector3 up = new Vector3(0,1,0);
+        Vector3 dir = new Vector3(0,0,1);
+
+        up.transform(after);
+        dir.transform(after);
+
+        IVector3 pos = new Vector3(obj.getPosition()).addMultiply(dir,-4).addMultiply(up, 1);
+
+
+        obj.getPosition().addMultiply(dir, Renderer.accel * 0.3f);
+
+        obj.update(space);
+        Renderer.camera.lookAt(pos ,new Vector3(obj.getPosition()).addMultiply(dir,distance),up);
+
+    }
+
 
     private void setCamera() {
       /*  float angle = (float) Math.PI / 24;
@@ -69,21 +95,9 @@ public class Demo implements Scene {
     @Override
     public void draw(final ShaderProgram shader){
         shader.applyCamera(Renderer.camera,new Matrix().identity());
-        Renderer.camera.lookAt((float) (4 * Math.sin(angle)), 1, (float) (4 * Math.cos(angle)),0, 0, 0);
-
         drawSky(shader);
+        super.draw(shader);
 
-        /* DRAW OBJECTS */
-        space.handleVisibleObjects(Renderer.camera.getBoundingFrustum(), new VisibleObjectHandler() {
-            @Override
-            public void onObjectVisible(IBoundingSphere iBoundingSphere) {
-                Object3D obj = (Object3D) iBoundingSphere;
-                Model3D mod = (Model3D) obj.getModel();
-                Matrix mat = new Matrix().createTranslation(obj.getPosition());
-                shader.applyCamera(Renderer.camera, mat);
-                mod.draw(shader, Renderer.camera);
-            }
-        });
     }
 
     @Override

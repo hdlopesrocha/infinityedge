@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.SeekBar;
 
 import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.scene.Background;
+import pt.hidrogine.infinityedge.util.VerticalSeekBar;
 
 
 /**
@@ -62,11 +66,79 @@ public class Control extends BaseFragment {
         }
     }
 
+    public float clamp(float x){
+        if(x<-1)
+            return -1;
+        if(x>1)
+            return 1;
+        return x;
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_controls, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_controls, container, false);
+        {
+            VerticalSeekBar accel = (VerticalSeekBar) rootView.findViewById(R.id.accel);
+            accel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    Renderer.accel = progress/100f;
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+
+        }
+
+        
+        
+        {
+            Button button = (Button) rootView.findViewById(R.id.analog);
+            button.setOnTouchListener(new View.OnTouchListener() {
+
+
+                @Override
+                public synchronized boolean onTouch(View v, MotionEvent event) {
+
+
+                    float x = clamp((event.getX() / v.getWidth()) * 2f - 1f);
+                    float y = clamp((event.getY() / v.getHeight()) * 2f - 1f);
+
+                            switch (event.getAction()) {
+
+                                case MotionEvent.ACTION_MOVE:
+                                case MotionEvent.ACTION_DOWN:
+                                    Renderer.analogX=x;
+                                    Renderer.analogY = y;
+
+                                    break;
+                                case MotionEvent.ACTION_UP:
+                                    Renderer.analogX=0;
+                                    Renderer.analogY = 0;
+
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                    return false;
+                }
+            });
+        }
+
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
