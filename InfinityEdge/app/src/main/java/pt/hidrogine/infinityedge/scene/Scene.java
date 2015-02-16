@@ -1,10 +1,12 @@
 package pt.hidrogine.infinityedge.scene;
 
 import hidrogine.math.IBoundingSphere;
+import hidrogine.math.Matrix;
 import hidrogine.math.Space;
 import hidrogine.math.VisibleObjectHandler;
 import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.dto.Asteroid;
+import pt.hidrogine.infinityedge.dto.Bullet;
 import pt.hidrogine.infinityedge.dto.Object3D;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
@@ -30,7 +32,16 @@ public abstract class Scene {
 
                 Model3D mod = (Model3D) obj.getModel();
                 shader.applyCamera(Renderer.camera, obj.getModelMatrix());
+
+                if(obj instanceof Bullet){
+                    shader.disableLight();
+                }
+
                 mod.draw(shader, Renderer.camera);
+                if(obj instanceof Bullet){
+                    shader.enableLight();
+                }
+
             }
         });
     }

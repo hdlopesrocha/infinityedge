@@ -1,6 +1,7 @@
 package pt.hidrogine.infinityedge.activity;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import pt.hidrogine.infinityedge.R;
@@ -28,7 +32,8 @@ public class Control extends BaseFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private ImageView stick;
+    private Button analog;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -71,6 +76,20 @@ public class Control extends BaseFragment {
 
     }
 
+
+    void setStick(){
+        float ax = Renderer.analogX;
+        float ay = Renderer.analogY;
+        float le = (float) Math.sqrt(ax*ax+ay*ay);
+        if(le>1){
+            ax/=le;
+            ay/=le;
+        }
+
+        stick.setX(analog.getX()+(ax+1)*analog.getWidth()*.5f-stick.getWidth()*.5f);
+        stick.setY(analog.getY()+(ay+1)*analog.getHeight()*.5f-stick.getHeight()*.5f);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,7 +100,7 @@ public class Control extends BaseFragment {
             accel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    Renderer.accel = progress/100f;
+                    Renderer.accel = progress / 100f;
                 }
 
                 @Override
@@ -97,42 +116,62 @@ public class Control extends BaseFragment {
 
         }
 
-        
-        
-        {
-            Button button = (Button) rootView.findViewById(R.id.analog);
-            button.setOnTouchListener(new View.OnTouchListener() {
+        stick = (ImageView) rootView.findViewById(R.id.stick);
+        analog = (Button) rootView.findViewById(R.id.analog);
+        setStick();
+        analog.setOnTouchListener(new View.OnTouchListener() {
 
 
-                @Override
-                public synchronized boolean onTouch(View v, MotionEvent event) {
+            @Override
+            public synchronized boolean onTouch(View v, MotionEvent event) {
 
 
-                    float x = clamp((event.getX() / v.getWidth()) * 2f - 1f);
-                    float y = clamp((event.getY() / v.getHeight()) * 2f - 1f);
+                float x = clamp((event.getX() / v.getWidth()) * 2f - 1f);
+                float y = clamp((event.getY() / v.getHeight()) * 2f - 1f);
 
-                            switch (event.getAction()) {
 
-                                case MotionEvent.ACTION_MOVE:
-                                case MotionEvent.ACTION_DOWN:
-                                    Renderer.analogX=x;
-                                    Renderer.analogY = y;
+                switch (event.getAction()) {
 
-                                    break;
-                                case MotionEvent.ACTION_UP:
-                                    Renderer.analogX=0;
-                                    Renderer.analogY = 0;
+                    case MotionEvent.ACTION_MOVE:
+                    case MotionEvent.ACTION_DOWN:
+                        Renderer.analogX = x;
+                        Renderer.analogY = y;
 
-                                    break;
-                                default:
-                                    break;
-                            }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Renderer.analogX = 0;
+                        Renderer.analogY = 0;
 
-                    return false;
+                        break;
+                    default:
+                        break;
                 }
-            });
-        }
+                setStick();
 
+                return false;
+            }
+        });
+
+
+        ImageButton fire = (ImageButton) rootView.findViewById(R.id.fire);
+        fire.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_MOVE:
+                    case MotionEvent.ACTION_DOWN:
+                        Renderer.fire = true;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Renderer.fire=false;
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
 
         return rootView;
     }

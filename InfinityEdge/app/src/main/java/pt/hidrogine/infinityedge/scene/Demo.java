@@ -4,6 +4,8 @@ package pt.hidrogine.infinityedge.scene;
 import android.opengl.GLES20;
 import android.os.Debug;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -23,14 +25,14 @@ public class Demo extends Scene {
 
     private Random random = new Random();
     private SpaceShip fighter;
-    private Bullet bullet;
+    private LinkedList<Bullet> bullets = new LinkedList<Bullet>();
+
 
     public Demo(){
         fighter = new SpaceShip(new Vector3(0,0,0), Renderer.fighter);
         fighter.insert(space);
     //    Debug.startMethodTracing("myapp");
-        bullet = new Bullet(new Vector3(1,0,0),Renderer.bullet);
-        bullet.insert(space);
+
 
         int size = 1024;
         for(int i =0; i < 10000 ; ++i) {
@@ -48,9 +50,29 @@ public class Demo extends Scene {
     }
 
     @Override
-    public void update(float delta_t){
-        controlObject(fighter,delta_t);
-        bullet.getRotation().set(fighter.getRotation());
+    public void update(float delta_t) {
+        controlObject(fighter, delta_t);
+        if (Renderer.fire){
+            Bullet bullet = new Bullet(fighter, Renderer.bullet);
+            bullet.insert(space);
+            bullets.add(bullet);
+        }
+        Iterator<Bullet> it = bullets.iterator();
+
+        while (it.hasNext()){
+            Bullet b = it.next();
+            b.move(delta_t);
+            if(b.timeToLive<0){
+                it.remove();
+                b.remove();
+            }
+            else {
+                b.update(space);
+            }
+        }
+
+
+
 
 
     }

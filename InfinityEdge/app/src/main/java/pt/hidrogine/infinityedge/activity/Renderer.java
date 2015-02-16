@@ -35,6 +35,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     public static Scene currentScene;
     public static final Camera camera = new Camera();
     public static float analogX=0,analogY=0, accel;
+    public static boolean fire = false;
 
     public void init(Game activity) {
         game = activity;
