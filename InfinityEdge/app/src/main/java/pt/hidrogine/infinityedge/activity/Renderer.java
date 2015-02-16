@@ -2,13 +2,16 @@ package pt.hidrogine.infinityedge.activity;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.os.Debug;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import hidrogine.math.Camera;
 import hidrogine.math.Matrix;
+import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.R;
+import pt.hidrogine.infinityedge.dto.Asteroid;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.scene.Background;
 import pt.hidrogine.infinityedge.scene.Scene;
@@ -33,6 +36,8 @@ public class Renderer implements GLSurfaceView.Renderer {
 
     public void init(Game activity) {
         game = activity;
+
+        //Debug.startMethodTracing("myapp");
         fighter = new Model3D(activity, R.raw.fighter, 0.02f);
 
         asteroid1 = new Model3D(activity,R.raw.asteroid1,0.8f);
@@ -41,6 +46,8 @@ public class Renderer implements GLSurfaceView.Renderer {
         asteroid4 = new Model3D(activity,R.raw.asteroid4,0.016f);
 
         sky = new Model3D(activity, R.raw.sky1, 1f);
+
+        //Debug.stopMethodTracing();
 
         currentScene = new Background();
         time = getTime();

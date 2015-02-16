@@ -15,16 +15,17 @@ import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.dto.Asteroid;
 import pt.hidrogine.infinityedge.dto.Object3D;
+import pt.hidrogine.infinityedge.dto.SpaceShip;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class Demo extends Scene {
 
     private Random random = new Random();
-    private Object3D fighter;
+    private SpaceShip fighter;
     public Demo(){
-        fighter = new Object3D(new Vector3(0,0,0), Renderer.fighter);
+        fighter = new SpaceShip(new Vector3(0,0,0), Renderer.fighter);
         fighter.insert(space);
-      //  Debug.startMethodTracing("myapp");
+    //    Debug.startMethodTracing("myapp");
         int size = 1024;
         for(int i =0; i < 10000 ; ++i) {
             new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid1).insert(space);
@@ -32,7 +33,7 @@ public class Demo extends Scene {
             if(i%100==0)
             System.out.println("i="+i);
         }
-       // Debug.stopMethodTracing();
+    //    Debug.stopMethodTracing();
 
     }
 
@@ -42,10 +43,10 @@ public class Demo extends Scene {
 
     @Override
     public void update(float delta_t){
-        controlObject(fighter);
+        controlObject(fighter,delta_t);
     }
 
-    private void controlObject(Object3D obj){
+    private void controlObject(SpaceShip obj, float delta_t){
       //  obj._aceleration = _object._ray.Direction * _object._physics._acelerationMax * _control.analogAcel.Value;
         boolean axis_x = false;
         boolean axis_y = false;
@@ -64,12 +65,11 @@ public class Demo extends Scene {
         up.transform(after);
         dir.transform(after);
 
-        IVector3 pos = new Vector3(obj.getPosition()).addMultiply(dir,-4).addMultiply(up, 1);
-
-
-        obj.getPosition().addMultiply(dir, Renderer.accel * 0.3f);
-
+        obj.aceleration.set(0,0,0).addMultiply(dir,Renderer.accel*obj.maxAcceleration);
+        obj.move(delta_t);
         obj.update(space);
+
+        IVector3 pos = new Vector3(obj.getPosition()).addMultiply(dir,-4).addMultiply(up, 1);
         Renderer.camera.lookAt(pos ,new Vector3(obj.getPosition()).addMultiply(dir,distance),up);
 
     }
