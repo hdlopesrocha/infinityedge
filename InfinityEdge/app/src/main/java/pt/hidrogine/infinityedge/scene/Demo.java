@@ -14,6 +14,7 @@ import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.dto.Asteroid;
+import pt.hidrogine.infinityedge.dto.Bullet;
 import pt.hidrogine.infinityedge.dto.Object3D;
 import pt.hidrogine.infinityedge.dto.SpaceShip;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
@@ -22,10 +23,15 @@ public class Demo extends Scene {
 
     private Random random = new Random();
     private SpaceShip fighter;
+    private Bullet bullet;
+
     public Demo(){
         fighter = new SpaceShip(new Vector3(0,0,0), Renderer.fighter);
         fighter.insert(space);
     //    Debug.startMethodTracing("myapp");
+        bullet = new Bullet(new Vector3(1,0,0),Renderer.bullet);
+        bullet.insert(space);
+
         int size = 1024;
         for(int i =0; i < 10000 ; ++i) {
             new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid1).insert(space);
@@ -44,6 +50,9 @@ public class Demo extends Scene {
     @Override
     public void update(float delta_t){
         controlObject(fighter,delta_t);
+        bullet.getRotation().set(fighter.getRotation());
+
+
     }
 
     private void controlObject(SpaceShip obj, float delta_t){

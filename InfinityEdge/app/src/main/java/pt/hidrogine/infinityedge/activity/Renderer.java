@@ -9,6 +9,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import hidrogine.math.Camera;
 import hidrogine.math.Matrix;
+import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.dto.Asteroid;
@@ -26,6 +27,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     public static Model3D asteroid2;
     public static Model3D asteroid3;
     public static Model3D asteroid4;
+    public static Model3D bullet;
     public static Model3D sky;
 
     long time;
@@ -39,6 +41,7 @@ public class Renderer implements GLSurfaceView.Renderer {
 
         //Debug.startMethodTracing("myapp");
         fighter = new Model3D(activity, R.raw.fighter, 0.02f);
+        bullet = new Model3D(activity,R.raw.bullet,0.006f, new Quaternion().createFromYawPitchRoll(0,(float)(Math.PI/2),0));
 
         asteroid1 = new Model3D(activity,R.raw.asteroid1,0.8f);
         asteroid2 = new Model3D(activity,R.raw.asteroid2,1.4f);

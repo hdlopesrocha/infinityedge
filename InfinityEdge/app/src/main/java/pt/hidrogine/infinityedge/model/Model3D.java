@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import hidrogine.math.IBoundingSphere;
 import hidrogine.math.IModel3D;
 import hidrogine.math.IVector3;
+import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
@@ -25,6 +26,10 @@ public class Model3D extends Model implements IModel3D{
     private IBoundingSphere container;
 
     public Model3D(final Context context, final int resource, final float scale) {
+        this(context,resource,scale,null);
+    }
+
+    public Model3D(final Context context, final int resource, final float scale, final Quaternion rot) {
 
 
         TreeMap<String, Material> materials = new TreeMap<String, Material>();
@@ -141,19 +146,44 @@ public class Model3D extends Model implements IModel3D{
                                         }
                                         if(k==2){
                                             k=0;
-                                            points.add(new Vector3(x,y,z));
+                                            IVector3 vec = new Vector3(x,y,z);
+                                            if(rot!=null){
+                                                vec.transform(rot);
+                                            }
+
+                                            points.add(vec);
+                                            currentSubGroup.addVertex(vec.getX(),vec.getY(),vec.getZ());
+
                                         }
                                         else {
                                             ++k;
                                         }
-                                        currentSubGroup.addVertex(val);
 
                                     }
                                 } else if ("vn".equals(key)) {
+                                    int k = 0;
+                                    float x=0, y=0, z=0;
+
                                     jsonParser.nextToken(); // [
                                     while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                                         float val = jsonParser.getFloatValue();
-                                        currentSubGroup.addNormal(val);
+                                        switch (k){
+                                            case 0 : x = val; break;
+                                            case 1 : y = val; break;
+                                            case 2 : z = val;break;
+                                        }
+                                        if(k==2){
+                                            k=0;
+                                            IVector3 vec = new Vector3(x,y,z);
+                                            if(rot!=null){
+                                                vec.transform(rot);
+                                            }
+                                            currentSubGroup.addNormal(vec.getX(),vec.getY(),vec.getZ());
+
+                                        }
+                                        else {
+                                            ++k;
+                                        }
                                     }
                                 } else if ("vt".equals(key)) {
                                     jsonParser.nextToken(); // [

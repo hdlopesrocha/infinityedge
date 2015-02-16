@@ -36,14 +36,17 @@ public class BufferObject {
         material = f;
     }
 
-    public void addVertex(float f) {
-        vertexData.add(f);
+    public void addVertex(float x,float y, float z) {
+        vertexData.add(x);
+        vertexData.add(y);
+        vertexData.add(z);
     }
 
-    public void addNormal(float f) {
-        normalData.add(f);
+    public void addNormal(float x,float y, float z) {
+        normalData.add(x);
+        normalData.add(y);
+        normalData.add(z);
     }
-
     public void addTexture(float f) {
         textureData.add(f);
     }
