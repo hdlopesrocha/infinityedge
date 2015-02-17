@@ -119,16 +119,14 @@ public class Control extends BaseFragment {
         stick = (ImageView) rootView.findViewById(R.id.stick);
         analog = (Button) rootView.findViewById(R.id.analog);
         setStick();
-        analog.setOnTouchListener(new View.OnTouchListener() {
 
+
+        analog.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public synchronized boolean onTouch(View v, MotionEvent event) {
-
-
                 float x = clamp((event.getX() / v.getWidth()) * 2f - 1f);
                 float y = clamp((event.getY() / v.getHeight()) * 2f - 1f);
-
 
                 switch (event.getAction()) {
 

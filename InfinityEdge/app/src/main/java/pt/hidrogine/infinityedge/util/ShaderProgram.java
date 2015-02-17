@@ -25,6 +25,7 @@ public class ShaderProgram {
     public int mTextureCoordinateHandle;
     private int mAmbientColor;
     private int mDiffuseColor;
+    private int mFar;
 
 
 
@@ -45,6 +46,7 @@ public class ShaderProgram {
 
         mAmbientColor = GLES20.glGetUniformLocation(mProgramHandle, "u_AmbientColor");
         mDiffuseColor = GLES20.glGetUniformLocation(mProgramHandle, "u_DiffuseColor");
+        mFar = GLES20.glGetUniformLocation(mProgramHandle, "u_Far");
 
         mTextureUniformHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Texture");
         mPositionHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Position");
@@ -90,6 +92,8 @@ public class ShaderProgram {
         GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, model.multiply(mViewMatrix).toArray(), 0);
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, model.multiply(mProjectionMatrix).toArray(), 0);
         GLES20.glUniform3f(mLightPosHandle, mLightPosInEyeSpace.getX(), mLightPosInEyeSpace.getY(), mLightPosInEyeSpace.getZ());
+        GLES20.glUniform1f(mFar,cam.getFar());
+
     }
 
 

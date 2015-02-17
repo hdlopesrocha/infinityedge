@@ -2,6 +2,11 @@ package pt.hidrogine.infinityedge.scene;
 
 import android.opengl.GLES20;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Stack;
+
 import javax.microedition.khronos.opengles.GL10;
 
 import hidrogine.math.IBoundingSphere;
@@ -24,44 +29,75 @@ public abstract class Scene {
 
     public abstract void update(float delta_t);
     public void draw(final ShaderProgram shader){
+        final LinkedList<Object3D> alphaObjects = new LinkedList<Object3D>();
+        final LinkedList<Object3D> simpleObjects = new LinkedList<Object3D>();
+
+
+
         /* DRAW OBJECTS */
         space.handleVisibleObjects(Renderer.camera.getBoundingFrustum(), new VisibleObjectHandler() {
             @Override
-            public void onObjectVisible(Object iBoundingSphere) {
-                Object3D obj = (Object3D) iBoundingSphere;
+            public void onObjectVisible(Object o) {
+                Object3D obj = (Object3D) o;
 
-                if(obj instanceof Asteroid)
-                {
-                    obj.getRotation().multiply(((Asteroid) obj).rotation);
-                }
-
-                Model3D mod = (Model3D) obj.getModel();
-                shader.applyCamera(Renderer.camera, obj.getModelMatrix());
-
-                if(obj instanceof Bullet){
-                    shader.disableLight();
-                }
                 if(obj instanceof BillBoard){
-                    shader.disableLight();
-                    obj.getRotation().set(Renderer.camera.getRotation()).conjugate();
-                    GLES20.glDisable(GL10.GL_CULL_FACE);
+                    alphaObjects.push(obj);
+                }
+                else {
+                    simpleObjects.push(obj);
 
                 }
-
-
-                mod.draw(shader, Renderer.camera);
-
-                if(obj instanceof BillBoard) {
-                    shader.enableLight();
-                    GLES20.glEnable(GL10.GL_CULL_FACE);
-                }
-
-                if(obj instanceof Bullet){
-                    shader.enableLight();
-                }
-
             }
         });
+
+        Comparator<Object3D> com = new Comparator<Object3D>() {
+            @Override
+            public int compare(Object3D lhs, Object3D rhs) {
+                float ld = (float)lhs.getPosition().distanceSquared(Renderer.camera.getPosition());
+                float rd = (float)rhs.getPosition().distanceSquared(Renderer.camera.getPosition());
+
+                return ld > rd ? -1 : ld < rd ? 1 : 0;
+            }
+        };
+
+        Collections.sort(alphaObjects,com);
+        shader.disableLight();
+        GLES20.glDisable(GL10.GL_DEPTH_TEST);
+        GLES20.glDisable(GL10.GL_CULL_FACE);
+        for (Object3D obj : alphaObjects) {
+            Model3D mod = (Model3D) obj.getModel();
+            if(obj instanceof BillBoard){
+                obj.getRotation().set(Renderer.camera.getRotation()).conjugate();
+            }
+
+            shader.applyCamera(Renderer.camera, obj.getModelMatrix());
+            mod.draw(shader, Renderer.camera);
+        }
+        shader.enableLight();
+        GLES20.glEnable(GL10.GL_CULL_FACE);
+        GLES20.glEnable(GL10.GL_DEPTH_TEST);
+
+
+
+
+
+
+
+        for (Object3D obj : simpleObjects) {
+            if(obj instanceof Bullet) {
+                shader.disableLight();
+            }
+
+            Model3D mod = (Model3D) obj.getModel();
+            shader.applyCamera(Renderer.camera, obj.getModelMatrix());
+            mod.draw(shader, Renderer.camera);
+            if(obj instanceof Bullet) {
+                shader.enableLight();
+            }
+        }
+
+
+
     }
     public abstract void end();
 }
