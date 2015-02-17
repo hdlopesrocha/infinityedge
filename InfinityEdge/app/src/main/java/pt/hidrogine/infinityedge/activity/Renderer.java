@@ -35,7 +35,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     long time;
     long oldTime;
     public static Scene currentScene;
-    public static final Camera camera = new Camera();
+    public static final Camera camera = new Camera(0.1f,256);
     public static float analogX=0,analogY=0, accel;
     public static boolean fire = false;
 
@@ -73,7 +73,6 @@ public class Renderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
-        shader.updateViewPort(width, height);
         camera.update(width,height);
     }
 

@@ -13,7 +13,7 @@ import pt.hidrogine.infinityedge.R;
 public class ShaderProgram {
 
     private int mProgramHandle;
-    private Matrix mProjectionMatrix = new Matrix();
+
     private Matrix mLightModelMatrix = new Matrix();
     private int mMVPMatrixHandle;
     private int mMVMatrixHandle;
@@ -80,6 +80,8 @@ public class ShaderProgram {
 
     public void applyCamera(Camera cam, Matrix model) {
         Matrix mViewMatrix = cam.getViewMatrix();
+        Matrix mProjectionMatrix = cam.getProjectionMatrix();
+
         GLES20.glUseProgram(mProgramHandle);
         final IVector3 mLightPosInModelSpace = new Vector3(10.0f, 10.0f, 10.0f);
         mLightModelMatrix.createTranslation(0, 0, -1f);
@@ -92,23 +94,7 @@ public class ShaderProgram {
 
 
 
-    public void updateViewPort(int width, int height) {
-        // Set the OpenGL viewport to the same size as the surface.
-        GLES20.glViewport(0, 0, width, height);
 
-        // Create a new perspective projection matrix. The height will stay the same
-        // while the width will vary as per aspect ratio.
-        final float ratio = (float) width / height;
-       /* final float left = -ratio;
-        final float right = ratio;
-        final float bottom = -1.0f;
-        final float top = 1.0f;
-        final float near = 1.0f;
-        final float far = 1000.0f;*/
-        mProjectionMatrix.createPerspectiveFieldOfView((float)Math.PI/4,ratio, 1.0f, 100f);
-
-        //  Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
-    }
 
 
 
