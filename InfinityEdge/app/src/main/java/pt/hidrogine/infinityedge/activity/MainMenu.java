@@ -1,8 +1,10 @@
 package pt.hidrogine.infinityedge.activity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -25,6 +27,11 @@ public class MainMenu extends Activity{
                 startActivity(new Intent(MainMenu.this,Game.class));
             }
         });
+
+
+        ActivityManager activityManager = (ActivityManager) getApplication().getSystemService(ACTIVITY_SERVICE);
+        Log.i("Test", "Large Memory Limit " + activityManager.getLargeMemoryClass() + " MB");
+        Log.i("Test", " Memory Limit  " + activityManager.getMemoryClass() + " MB");
 
    }
 

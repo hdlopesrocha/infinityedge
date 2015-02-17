@@ -21,12 +21,14 @@ import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class Renderer implements GLSurfaceView.Renderer {
     private ShaderProgram shader;
-    private Game game;
+    public static Game game;
     public static Model3D fighter;
     public static Model3D asteroid1;
     public static Model3D asteroid2;
     public static Model3D asteroid3;
     public static Model3D asteroid4;
+    public static Model3D flare;
+    public static Model3D smoke1;
     public static Model3D bullet;
     public static Model3D sky;
 
@@ -43,6 +45,8 @@ public class Renderer implements GLSurfaceView.Renderer {
         //Debug.startMethodTracing("myapp");
         fighter = new Model3D(activity, R.raw.fighter, 0.02f);
         bullet = new Model3D(activity,R.raw.bullet,0.006f, new Quaternion().createFromYawPitchRoll(0,(float)(Math.PI/2),0));
+        flare = new Model3D(activity,R.raw.flare,1f);
+        smoke1 = new Model3D(activity,R.raw.smoke1,50f);
 
         asteroid1 = new Model3D(activity,R.raw.asteroid1,0.8f);
         asteroid2 = new Model3D(activity,R.raw.asteroid2,1.4f);
