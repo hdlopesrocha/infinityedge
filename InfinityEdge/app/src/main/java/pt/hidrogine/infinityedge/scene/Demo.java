@@ -31,7 +31,7 @@ public class Demo extends Scene {
 
 
     public Demo(){
-        fighter = new SpaceShip(new Vector3(0,0,0), Renderer.fighter);
+        fighter = new SpaceShip(new Vector3(0,0,0), Renderer.fighter1);
         fighter.insert(space);
 
         int size = 1024;
@@ -74,7 +74,7 @@ public class Demo extends Scene {
         }
 
 
-        System.out.println("MEM: " + getUsedMemorySize()/(1024*1024f));
+     //   System.out.println("MEM: " + getUsedMemorySize()/(1024*1024f));
 
 
 
@@ -97,6 +97,14 @@ public class Demo extends Scene {
 
     }
 
+    private float animX =0,animY =0;
+
+
+    public static float lerp(float value1, float value2, float amount)
+    {
+        return value1 + (value2 - value1) * amount;
+    }
+
     private void controlObject(SpaceShip obj, float delta_t){
       //  obj._aceleration = _object._ray.Direction * _object._physics._acelerationMax * _control.analogAcel.Value;
         boolean axis_x = false;
@@ -110,39 +118,25 @@ public class Demo extends Scene {
         Quaternion after = obj.getRotation();
 
 
-        Vector3 up = new Vector3(0,1,0);
-        Vector3 dir = new Vector3(0,0,1);
-
-        up.transform(after);
-        dir.transform(after);
+        IVector3 up = new Vector3(0,1,0).transform(after);
+        IVector3 dir = new Vector3(0,0,1).transform(after);
+        IVector3 side = new Vector3(1,0,0).transform(after);
 
         obj.aceleration.set(0,0,0).addMultiply(dir,Renderer.accel*obj.maxAcceleration);
         obj.move(delta_t);
         obj.update(space);
 
-        IVector3 pos = new Vector3(obj.getPosition()).addMultiply(dir,-4).addMultiply(up, 1);
+        animX = lerp(animX,Renderer.analogX,0.1f);
+        animY = lerp(animY,Renderer.analogY,0.1f);
+
+
+        IVector3 pos = new Vector3(obj.getPosition()).addMultiply(dir,-4).addMultiply(up, 1).addMultiply(up,animY*.5f).addMultiply(side,-animX*.5f);
         Renderer.camera.lookAt(pos ,new Vector3(obj.getPosition()).addMultiply(dir,distance),up);
 
+
     }
 
 
-    private void setCamera() {
-      /*  float angle = (float) Math.PI / 24;
-        boolean axis_x = true;
-        boolean axis_y = true;
-        float analog_x = _control.analogStick.Value.X * angle;
-        float analog_y = _control.analogStick.Value.Y * angle;
-        float distance = 256;
-        Quaternion ypr = new Quaternion().createFromYawPitchRoll((axis_x ? -1 : 1) * analog_x, (axis_y ? -1 : 1) * analog_y + (float) Math.PI / 16f, 0);
-        Quaternion quat = new Quaternion(fighter.getRotation()).multiply(ypr);
-        IVector3 dir = (new Matrix().createTranslation(new Vector3(0, 0, 1)).multiply(new Matrix().createFromQuaternion(quat))).getTranslation().multiply(-6);
-        IVector3 pos = new Vector3(dir).add(fighter.getCenter());
-        IVector3 lookAt = new Vector3(fighter.getCenter()).addMultiply(fighter.getDirection(), distance);
-        IVector3 direction = new Vector3(lookAt).subtract(pos).normalize();
-        IVector3 side = new Vector3(direction).cross(fighter.getDirection());
-        IVector3 up = new Vector3(new Vector3(side).cross(direction).normalize()).reflect(fighter.getSide());
-        */
-    }
 
     @Override
     public void draw(final ShaderProgram shader){

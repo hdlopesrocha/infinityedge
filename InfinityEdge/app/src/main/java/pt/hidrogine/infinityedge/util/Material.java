@@ -20,12 +20,12 @@ public class Material {
     }
 
 
-    public void setTexture(Context context, String mapKd) {
+    public void setTexture(TextureLoader loader, String mapKd) {
         mapKd = mapKd.split("\\.")[0];
 
         try {
 
-            texture = TextureLoader.load(context,mapKd );
+            texture = loader.load(mapKd );
         } catch (Exception e) {
             e.printStackTrace();
         }

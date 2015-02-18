@@ -84,6 +84,10 @@ public abstract class Scene {
 
 
         for (Object3D obj : simpleObjects) {
+            if(obj instanceof Asteroid) {
+                obj.getRotation().multiply(((Asteroid)obj).rotation).normalize();
+            }
+
             if(obj instanceof Bullet) {
                 shader.disableLight();
             }

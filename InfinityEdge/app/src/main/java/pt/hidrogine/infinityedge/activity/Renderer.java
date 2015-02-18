@@ -2,7 +2,6 @@ package pt.hidrogine.infinityedge.activity;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.os.Debug;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -10,19 +9,19 @@ import javax.microedition.khronos.opengles.GL10;
 import hidrogine.math.Camera;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
-import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.R;
-import pt.hidrogine.infinityedge.dto.Asteroid;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.scene.Background;
 import pt.hidrogine.infinityedge.scene.Scene;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
+import pt.hidrogine.infinityedge.util.TextureLoader;
 
 
 public class Renderer implements GLSurfaceView.Renderer {
     private ShaderProgram shader;
     public static Game game;
-    public static Model3D fighter;
+    public static Model3D fighter1;
+    public static Model3D fighter2;
     public static Model3D asteroid1;
     public static Model3D asteroid2;
     public static Model3D asteroid3;
@@ -41,19 +40,22 @@ public class Renderer implements GLSurfaceView.Renderer {
 
     public void init(Game activity) {
         game = activity;
+        TextureLoader loader = new TextureLoader(activity);
 
         //Debug.startMethodTracing("myapp");
-        fighter = new Model3D(activity, R.raw.fighter, 0.02f);
-        bullet = new Model3D(activity,R.raw.bullet,0.006f, new Quaternion().createFromYawPitchRoll(0,(float)(Math.PI/2),0));
-        flare = new Model3D(activity,R.raw.flare,1f);
-        smoke1 = new Model3D(activity,R.raw.smoke1,50f);
+        fighter1 = new Model3D(activity,loader, R.raw.fighter1, 0.02f);
+        fighter2 = new Model3D(activity,loader, R.raw.fighter2, 1.5f);
 
-        asteroid1 = new Model3D(activity,R.raw.asteroid1,0.8f);
-        asteroid2 = new Model3D(activity,R.raw.asteroid2,1.4f);
-        asteroid3 = new Model3D(activity,R.raw.asteroid3,1.6f);
-        asteroid4 = new Model3D(activity,R.raw.asteroid4,0.016f);
+        bullet = new Model3D(activity,loader,R.raw.bullet,0.006f, new Quaternion().createFromYawPitchRoll(0,(float)(Math.PI/2),0));
+        flare = new Model3D(activity,loader,R.raw.flare,1f);
+        smoke1 = new Model3D(activity,loader,R.raw.smoke1,50f);
 
-        sky = new Model3D(activity, R.raw.sky1, 1f);
+        asteroid1 = new Model3D(activity,loader,R.raw.asteroid1,0.8f);
+        asteroid2 = new Model3D(activity,loader,R.raw.asteroid2,1.4f);
+        asteroid3 = new Model3D(activity,loader,R.raw.asteroid3,1.6f);
+        asteroid4 = new Model3D(activity,loader,R.raw.asteroid4,0.016f);
+
+        sky = new Model3D(activity, loader,R.raw.sky1, 1f);
 
         //Debug.stopMethodTracing();
 

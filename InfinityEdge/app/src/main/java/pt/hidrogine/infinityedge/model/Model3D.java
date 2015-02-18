@@ -15,6 +15,8 @@ import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
+import pt.hidrogine.infinityedge.util.TextureLoader;
+
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -25,11 +27,11 @@ public class Model3D extends Model implements IModel3D{
     public ArrayList<Group> groups = new ArrayList<Group>();
     private IBoundingSphere container;
 
-    public Model3D(final Context context, final int resource, final float scale) {
-        this(context,resource,scale,null);
+    public Model3D(final Context context, final TextureLoader loader, final int resource, final float scale) {
+        this(context,loader,resource,scale,null);
     }
 
-    public Model3D(final Context context, final int resource, final float scale, final Quaternion rot) {
+    public Model3D(final Context context, final TextureLoader loader,final int resource, final float scale, final Quaternion rot) {
 
 
         TreeMap<String, Material> materials = new TreeMap<String, Material>();
@@ -108,7 +110,7 @@ public class Model3D extends Model implements IModel3D{
                             jsonParser.nextToken();
                             String value = jsonParser.getValueAsString();
                             if ("map_Kd".equals(key)) {
-                                currentMaterial.setTexture(context, value);
+                                currentMaterial.setTexture(loader, value);
                             }
                             System.out.println(materialName + " | " + key + " -> " + value);
                         }

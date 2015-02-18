@@ -90,6 +90,8 @@ public class Control extends BaseFragment {
         stick.setY(analog.getY()+(ay+1)*analog.getHeight()*.5f-stick.getHeight()*.5f);
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

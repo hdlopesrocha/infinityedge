@@ -6,6 +6,7 @@ import android.opengl.GLES20;
 import javax.microedition.khronos.opengles.GL10;
 
 import hidrogine.math.Matrix;
+import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.dto.Asteroid;
@@ -16,14 +17,22 @@ public class Background extends Scene {
 
     private float angle = 0;
 
-
+    public static Object3D selectedObject;
+    private static Space space2;
     public Background(){
-        new Object3D(new Vector3(0,0,0), Renderer.fighter).insert(space);
+        space2 = space;
+        selectedObject =  new Object3D(new Vector3(0,0,0), Renderer.fighter1);
+        selectedObject.insert(space);
         new Asteroid(new Vector3(6,0,0), Renderer.asteroid1).insert(space);
         new Asteroid(new Vector3(-6,0,0), Renderer.asteroid2).insert(space);
         new Asteroid(new Vector3(0,0,6), Renderer.asteroid3).insert(space);
         new Asteroid(new Vector3(0,0,-6), Renderer.asteroid4).insert(space);
     }
+
+    public static Space getSpace(){
+        return space2;
+    }
+
 
     @Override
     public void update(float delta_t){

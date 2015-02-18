@@ -1,7 +1,6 @@
 package pt.hidrogine.infinityedge.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,19 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.R;
-import pt.hidrogine.infinityedge.scene.Demo;
+import pt.hidrogine.infinityedge.dto.Object3D;
+import pt.hidrogine.infinityedge.scene.Background;
+import pt.hidrogine.infinityedge.scene.Scene;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.support.v4.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Home.OnFragmentInteractionListener} interface
+ * {@link Hangar.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Home#newInstance} factory method to
+ * Use the {@link Hangar#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Home extends BaseFragment {
+public class Hangar extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -38,8 +40,8 @@ public class Home extends BaseFragment {
      * @return A new instance of fragment Home.
      */
     // TODO: Rename and change types and number of parameters
-    public static Home newInstance(String param1, String param2) {
-        Home fragment = new Home();
+    public static Hangar newInstance(String param1, String param2) {
+        Hangar fragment = new Hangar();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -47,7 +49,7 @@ public class Home extends BaseFragment {
         return fragment;
     }
 
-    public Home() {
+    public Hangar() {
         // Required empty public constructor
     }
 
@@ -58,47 +60,36 @@ public class Home extends BaseFragment {
             String mParam1 = getArguments().getString(ARG_PARAM1);
             String mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
-        Button singlePlayer = (Button)  rootView.findViewById(R.id.single_player);
-        singlePlayer.setOnClickListener(new View.OnClickListener() {
+        View rootView =  inflater.inflate(R.layout.fragment_hangar, container, false);
+        Button spaceship1 = (Button)  rootView.findViewById(R.id.spaceship1);
+        spaceship1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Game)getActivity()).replace(new Style());
+                Background.selectedObject.remove();
+                Background.selectedObject =  new Object3D(new Vector3(0,0,0), Renderer.fighter1);
+                Background.selectedObject.insert(Background.getSpace());
+
             }
         });
 
-        Button hangar = (Button)  rootView.findViewById(R.id.hangar);
-        hangar.setOnClickListener(new View.OnClickListener() {
+        Button spaceship2 = (Button)  rootView.findViewById(R.id.spaceship2);
+        spaceship2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Game)getActivity()).replace(new Hangar());
+                Background.selectedObject.remove();
+                Background.selectedObject =  new Object3D(new Vector3(0,0,0), Renderer.fighter2);
+                Background.selectedObject.insert(Background.getSpace());
             }
         });
 
+        return  rootView;
 
-        Button demo = (Button)  rootView.findViewById(R.id.demo);
-        demo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((Game)getActivity()).replace(new Control());
-                Renderer.currentScene = new Demo();
-            }
-        });
-
-
-
-
-        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
