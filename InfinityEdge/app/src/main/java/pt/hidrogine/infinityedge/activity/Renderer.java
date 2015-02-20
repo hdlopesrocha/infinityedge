@@ -10,6 +10,7 @@ import hidrogine.math.Camera;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import pt.hidrogine.infinityedge.R;
+import pt.hidrogine.infinityedge.model.LOD3D;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.scene.Background;
 import pt.hidrogine.infinityedge.scene.Scene;
@@ -22,9 +23,9 @@ public class Renderer implements GLSurfaceView.Renderer {
     public static Game game;
     public static Model3D fighter1;
     public static Model3D fighter2;
-    public static Model3D asteroid1;
-    public static Model3D asteroid2;
-    public static Model3D asteroid3;
+    public static LOD3D asteroid1;
+    public static LOD3D asteroid2;
+    public static LOD3D asteroid3;
     public static Model3D asteroid4;
     public static Model3D flare;
     public static Model3D smoke1;
@@ -50,9 +51,19 @@ public class Renderer implements GLSurfaceView.Renderer {
         flare = new Model3D(activity,loader,R.raw.flare,1f);
         smoke1 = new Model3D(activity,loader,R.raw.smoke1,50f);
 
-        asteroid1 = new Model3D(activity,loader,R.raw.asteroid1,0.8f);
-        asteroid2 = new Model3D(activity,loader,R.raw.asteroid2,1.4f);
-        asteroid3 = new Model3D(activity,loader,R.raw.asteroid3,1.6f);
+        asteroid1 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid1a,0.8f),
+                                new Model3D(activity,loader,R.raw.asteroid1b,0.8f),
+                                new Model3D(activity,loader,R.raw.asteroid1c,0.8f),
+                                new Model3D(activity,loader,R.raw.asteroid1d,0.8f));
+        asteroid2 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid2a,1.4f),
+                                new Model3D(activity,loader,R.raw.asteroid2b,1.4f),
+                                new Model3D(activity,loader,R.raw.asteroid2c,1.4f),
+                                new Model3D(activity,loader,R.raw.asteroid2d,1.4f));
+        asteroid3 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid3a,1.6f),
+                                new Model3D(activity,loader,R.raw.asteroid3b,1.6f),
+                                new Model3D(activity,loader,R.raw.asteroid3c,1.6f),
+                                new Model3D(activity,loader,R.raw.asteroid3d,1.6f));
+
         asteroid4 = new Model3D(activity,loader,R.raw.asteroid4,0.016f);
 
         sky = new Model3D(activity, loader,R.raw.sky1, 1f);

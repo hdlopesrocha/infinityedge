@@ -11,8 +11,10 @@ import java.util.TreeMap;
 import hidrogine.math.IBoundingSphere;
 import hidrogine.math.IModel3D;
 import hidrogine.math.IVector3;
+import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
+import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 import pt.hidrogine.infinityedge.util.TextureLoader;
@@ -215,7 +217,9 @@ public class Model3D extends Model implements IModel3D{
         }
     }
 
-    public void draw(ShaderProgram shader, Camera camera) {
+    public void draw(ShaderProgram shader, Camera camera, Matrix matrix) {
+        shader.applyCamera(Renderer.camera, matrix);
+
         for (Group g : groups) {
             for (BufferObject sg : g.subGroups) {
                 sg.draw(shader);

@@ -17,6 +17,7 @@ import pt.hidrogine.infinityedge.dto.Asteroid;
 import pt.hidrogine.infinityedge.dto.Bullet;
 import pt.hidrogine.infinityedge.dto.BillBoard;
 import pt.hidrogine.infinityedge.dto.Object3D;
+import pt.hidrogine.infinityedge.model.Model;
 import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
@@ -65,13 +66,12 @@ public abstract class Scene {
         GLES20.glDisable(GL10.GL_DEPTH_TEST);
         GLES20.glDisable(GL10.GL_CULL_FACE);
         for (Object3D obj : alphaObjects) {
-            Model3D mod = (Model3D) obj.getModel();
+            Model mod = (Model) obj.getModel();
             if(obj instanceof BillBoard){
                 obj.getRotation().set(Renderer.camera.getRotation()).conjugate();
             }
 
-            shader.applyCamera(Renderer.camera, obj.getModelMatrix());
-            mod.draw(shader, Renderer.camera);
+            mod.draw(shader, Renderer.camera,obj.getModelMatrix());
         }
         shader.enableLight();
         GLES20.glEnable(GL10.GL_CULL_FACE);
@@ -92,9 +92,8 @@ public abstract class Scene {
                 shader.disableLight();
             }
 
-            Model3D mod = (Model3D) obj.getModel();
-            shader.applyCamera(Renderer.camera, obj.getModelMatrix());
-            mod.draw(shader, Renderer.camera);
+            Model mod = (Model) obj.getModel();
+            mod.draw(shader, Renderer.camera, obj.getModelMatrix());
             if(obj instanceof Bullet) {
                 shader.enableLight();
             }

@@ -57,8 +57,7 @@ public class Background extends Scene {
         GLES20.glDisable(GL10.GL_CULL_FACE);
         shader.disableLight();
         Matrix mat = new Matrix().createTranslation(Renderer.camera.getPosition());
-        shader.applyCamera(Renderer.camera, mat);
-        Renderer.sky.draw(shader, Renderer.camera);
+        Renderer.sky.draw(shader, Renderer.camera,mat);
         shader.enableLight();
         GLES20.glEnable(GL10.GL_CULL_FACE);
     }
