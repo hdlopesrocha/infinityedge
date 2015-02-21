@@ -1,8 +1,11 @@
 package pt.hidrogine.infinityedge.model;
 
+import java.util.List;
+
 import hidrogine.math.Camera;
 import hidrogine.math.IBoundingSphere;
 import hidrogine.math.IModel3D;
+import hidrogine.math.IVector3;
 import hidrogine.math.Matrix;
 import pt.hidrogine.infinityedge.util.MathHelper;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
@@ -24,6 +27,11 @@ public class LOD3D extends Model implements IModel3D{
 
         int model = MathHelper.clamp((int) Math.floor(distance/ levelSize),0,models.length-1);
         models[model].draw(shader,camera,matrix);
+    }
+
+    @Override
+    public List<IVector3> getLights() {
+        return null;
     }
 
     @Override

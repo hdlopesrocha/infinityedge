@@ -30,6 +30,8 @@ public class Demo extends Scene {
     public Demo(Context context){
         Properties properties = new Properties(10, 0.1f, 35, 35, 100, 1, "fighter1");
 
+
+
         fighter = new SpaceShip(new Vector3(0,0,0),properties);
         fighter.insert(space);
 
@@ -44,6 +46,7 @@ public class Demo extends Scene {
 
     @Override
     public void update(float delta_t) {
+        super.update(delta_t);
         controlObject(fighter, delta_t);
         if (Renderer.fire){
             Bullet bullet = new Bullet(fighter, Renderer.bullet);

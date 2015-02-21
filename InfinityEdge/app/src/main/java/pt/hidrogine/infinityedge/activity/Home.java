@@ -91,7 +91,11 @@ public class Home extends BaseFragment {
             @Override
             public void onClick(View v) {
                 ((Game)getActivity()).replace(new Control());
+                Renderer.analogX = 0;
+                Renderer.analogY =0;
+                Renderer.accel = 0;
                 Renderer.currentScene = new Demo(getActivity());
+
             }
         });
 

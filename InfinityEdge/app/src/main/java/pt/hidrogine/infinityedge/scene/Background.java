@@ -15,7 +15,6 @@ import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class Background extends Scene {
 
-    private float angle = 0;
 
     public static Object3D selectedObject;
     private static Space space2;
@@ -36,13 +35,13 @@ public class Background extends Scene {
 
     @Override
     public void update(float delta_t){
-        angle += delta_t;
+        super.update(delta_t);
     }
 
     @Override
     public void draw(final ShaderProgram shader){
         shader.applyCamera(Renderer.camera,new Matrix().identity());
-        Renderer.camera.lookAt(new Vector3( (float) (4 * Math.sin(angle)), 1, (float) (4 * Math.cos(angle))),new Vector3(), new Vector3(0, 1, 0));
+        Renderer.camera.lookAt(new Vector3( (float) (4 * Math.sin(getTime())), 1, (float) (4 * Math.cos(getTime()))),new Vector3(), new Vector3(0, 1, 0));
         drawSky(shader);
         super.draw(shader);
     }

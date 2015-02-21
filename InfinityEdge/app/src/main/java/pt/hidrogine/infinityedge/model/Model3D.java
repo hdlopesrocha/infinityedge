@@ -28,9 +28,14 @@ public class Model3D extends Model implements IModel3D{
 
     public ArrayList<Group> groups = new ArrayList<Group>();
     private IBoundingSphere container;
+    private List<IVector3> lights = new ArrayList<IVector3>();
 
     public Model3D(final Context context, final TextureLoader loader, final int resource, final float scale) {
         this(context,loader,resource,scale,null);
+    }
+
+    public List<IVector3> getLights() {
+        return lights;
     }
 
     public Model3D(final Context context, final TextureLoader loader,final int resource, final float scale, final Quaternion rot) {
@@ -114,9 +119,40 @@ public class Model3D extends Model implements IModel3D{
                             if ("map_Kd".equals(key)) {
                                 currentMaterial.setTexture(loader, value);
                             }
-                    //        System.out.println(materialName + " | " + key + " -> " + value);
+                            //        System.out.println(materialName + " | " + key + " -> " + value);
                         }
                     }
+
+                } else if ("lights".equals(name)) {
+                    jsonParser.nextToken(); // [
+                    System.out.println("######### LIGHTS ###################");
+
+                    while (jsonParser.nextToken() != JsonToken.END_ARRAY) { // [[
+                        float x = 0, y = 0;
+                        int k = 0;
+                        while (jsonParser.nextToken() != JsonToken.END_ARRAY) { // [[(...)]
+                            float val = jsonParser.getFloatValue() * scale;
+                            if (k == 0) {
+                                x = val;
+                                ++k;
+                            } else if (k == 1) {
+                                y = val;
+                                ++k;
+                            } else if (k == 2) {
+                                k = 0;
+                                IVector3 vec = new Vector3(x, y, val);
+                                if (rot != null) {
+                                    vec.transform(rot);
+                                }
+
+                                System.out.println("######### LIGHT AT " + vec.toString());
+                                lights.add(vec);
+                            }
+
+                        }
+                    }
+
+
                 } else if ("groups".equals(name)) {
                     final List<IVector3> points = new ArrayList<IVector3>();
                     jsonParser.nextToken(); // {
@@ -130,7 +166,7 @@ public class Model3D extends Model implements IModel3D{
                             jsonParser.nextToken(); // {
                             BufferObject currentSubGroup = new BufferObject();
                             currentGroup.subGroups.add(currentSubGroup);
-                        //    System.out.println("JSON INIT");
+                            //    System.out.println("JSON INIT");
                             while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
                                 String key = jsonParser.getCurrentName();
                                 if ("mm".equals(key)) {
@@ -138,54 +174,57 @@ public class Model3D extends Model implements IModel3D{
                                     currentSubGroup.setMaterial(materials.get(mm));
                                 } else if ("vv".equals(key)) {
                                     int k = 0;
-                                    float x=0, y=0, z=0;
+                                    float x = 0, y = 0;
 
                                     jsonParser.nextToken(); // [
                                     while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                                         float val = jsonParser.getFloatValue() * scale;
-                                        switch (k){
-                                            case 0 : x = val; break;
-                                            case 1 : y = val; currentGroup.maxY = Math.max(currentGroup.maxY, val);break;
-                                            case 2 : z = val;break;
-                                        }
-                                        if(k==2){
-                                            k=0;
-                                            IVector3 vec = new Vector3(x,y,z);
-                                            if(rot!=null){
+                                        if (k == 0) {
+                                            x = val;
+                                            ++k;
+                                        } else if (k == 1) {
+                                            y = val;
+                                            currentGroup.maxY = Math.max(currentGroup.maxY, val);
+                                            ++k;
+                                        } else if (k == 2) {
+                                            k = 0;
+                                            IVector3 vec = new Vector3(x, y, val);
+                                            if (rot != null) {
                                                 vec.transform(rot);
                                             }
-
                                             points.add(vec);
-                                            currentSubGroup.addVertex(vec.getX(),vec.getY(),vec.getZ());
+                                            currentSubGroup.addVertex(vec.getX(), vec.getY(), vec.getZ());
+                                        }
 
-                                        }
-                                        else {
-                                            ++k;
-                                        }
 
                                     }
                                 } else if ("vn".equals(key)) {
                                     int k = 0;
-                                    float x=0, y=0, z=0;
+                                    float x = 0, y = 0, z = 0;
 
                                     jsonParser.nextToken(); // [
                                     while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                                         float val = jsonParser.getFloatValue();
-                                        switch (k){
-                                            case 0 : x = val; break;
-                                            case 1 : y = val; break;
-                                            case 2 : z = val;break;
+                                        switch (k) {
+                                            case 0:
+                                                x = val;
+                                                break;
+                                            case 1:
+                                                y = val;
+                                                break;
+                                            case 2:
+                                                z = val;
+                                                break;
                                         }
-                                        if(k==2){
-                                            k=0;
-                                            IVector3 vec = new Vector3(x,y,z);
-                                            if(rot!=null){
+                                        if (k == 2) {
+                                            k = 0;
+                                            IVector3 vec = new Vector3(x, y, z);
+                                            if (rot != null) {
                                                 vec.transform(rot);
                                             }
-                                            currentSubGroup.addNormal(vec.getX(),vec.getY(),vec.getZ());
+                                            currentSubGroup.addNormal(vec.getX(), vec.getY(), vec.getZ());
 
-                                        }
-                                        else {
+                                        } else {
                                             ++k;
                                         }
                                     }
@@ -203,9 +242,9 @@ public class Model3D extends Model implements IModel3D{
                                     }
                                 }
                             }
-                      //      System.out.println("JSON END");
+                            //      System.out.println("JSON END");
                             currentSubGroup.buildBuffer();
-                      //      System.out.println("JSON BUILD BUFFER");
+                            //      System.out.println("JSON BUILD BUFFER");
                         }
                     }
                     container = new BoundingSphere().createFromPoints(points);

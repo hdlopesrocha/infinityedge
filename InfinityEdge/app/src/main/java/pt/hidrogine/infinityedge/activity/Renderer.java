@@ -27,7 +27,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     public static LOD3D asteroid2;
     public static LOD3D asteroid3;
     public static LOD3D asteroid4;
-    public static Model3D flare;
+    public static Model3D flare, flare2;
     public static Model3D [] clouds = new Model3D[7];
     public static Model3D bullet;
     public static Model3D sky;
@@ -49,6 +49,7 @@ public class Renderer implements GLSurfaceView.Renderer {
 
         bullet = new Model3D(activity,loader,R.raw.bullet,0.006f, new Quaternion().createFromYawPitchRoll(0,(float)(Math.PI/2),0));
         flare = new Model3D(activity,loader,R.raw.flare,1f);
+        flare2 = new Model3D(activity,loader,R.raw.flare,0.5f);
 
         clouds[0] = new Model3D(activity,loader,R.raw.cloud1,50f);
         clouds[1] = new Model3D(activity,loader,R.raw.cloud2,50f);

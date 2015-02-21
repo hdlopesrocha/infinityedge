@@ -11,11 +11,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import hidrogine.math.IVector3;
 import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
@@ -28,6 +30,7 @@ import pt.hidrogine.infinityedge.object.Object3D;
 import pt.hidrogine.infinityedge.object.Properties;
 import pt.hidrogine.infinityedge.object.SpaceShip;
 import pt.hidrogine.infinityedge.model.Model;
+import pt.hidrogine.infinityedge.object.Team;
 import pt.hidrogine.infinityedge.util.FileString;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
@@ -37,11 +40,14 @@ import pt.hidrogine.infinityedge.util.ShaderProgram;
 public abstract class Scene {
     protected Space space = new Space();
     private TreeMap<String,Properties> properties = new TreeMap<String, Properties>();
-    ;
     private Random random = new Random();
     private int size;
+    private float time=0;
+    private TreeMap<String,Team> teams = new TreeMap<String,Team>();
 
-    public abstract void update(float delta_t);
+    public void update(float delta_t){
+        time+=delta_t;
+    }
     public void draw(final ShaderProgram shader){
         final LinkedList<Object3D> alphaObjects = new LinkedList<Object3D>();
         final LinkedList<Object3D> simpleObjects = new LinkedList<Object3D>();
@@ -83,7 +89,7 @@ public abstract class Scene {
                 obj.getRotation().set(Renderer.camera.getRotation()).conjugate();
             }
             if(obj instanceof Cloud) {
-                shader.setDiffuseColor(1,1,1,0.25f);
+                shader.setDiffuseColor(1, 1, 1, 0.25f);
             }
 
             mod.draw(shader, Renderer.camera,obj.getModelMatrix());
@@ -110,15 +116,33 @@ public abstract class Scene {
             Model mod = (Model) obj.getModel();
             mod.draw(shader, Renderer.camera, obj.getModelMatrix());
 
+
+            List<IVector3> lights = mod.getLights();
+            if(lights != null && lights.size()>0) {
+                shader.setDiffuseColor(1, 0, 0, (float) Math.sin(time*4)*.5f+.5f);
+
+                shader.disableLight();
+                for (IVector3 light : mod.getLights()) {
+                    IVector3 rot = new Vector3(light).transform(obj.getRotation()).add(obj.getPosition());
+                    BillBoard billBoard = new BillBoard(rot, Renderer.flare2);
+                    billBoard.getRotation().set(Renderer.camera.getRotation()).conjugate();
+                    Renderer.flare2.draw(shader, Renderer.camera, billBoard.getModelMatrix());
+                }
+                shader.enableLight();
+                shader.setDiffuseColor(1, 1, 1, 1);
+
+            }
+
+
+
             if(obj instanceof Bullet) {
                 BillBoard billBoard = new BillBoard(obj.getPosition(),Renderer.flare);
                 billBoard.getRotation().set(Renderer.camera.getRotation()).conjugate();
-
                 Renderer.flare.draw(shader, Renderer.camera, billBoard.getModelMatrix());
-
                 shader.enableLight();
                 shader.setDiffuseColor(1, 1, 1, 1);
             }
+
 
         }
     }
@@ -142,6 +166,9 @@ public abstract class Scene {
     }
 
 
+    public float getTime() {
+        return time;
+    }
     public void load(Context context, String path) {
 
 
@@ -161,41 +188,60 @@ public abstract class Scene {
                 }
             }
 
+            if(map.has("teams")){
+                JSONObject jTeams = map.getJSONObject("teams");
+                Iterator<String> it = jTeams.keys();
+                while (it.hasNext()){
+                    String key = it.next();
+                    JSONObject jTeam = jTeams.getJSONObject(key);
+                    teams.put(key,new Team(jTeam.getString("name")));
+                }
+            }
+
 
             JSONArray objects = map.getJSONArray("objects");
             for (int i = 0; i < objects.length(); ++i) {
-                JSONObject obj = objects.getJSONObject(i);
-                String type = obj.getString("type");
-                Integer repeat = obj.has("repeat") ? obj.getInt("repeat") : 1;
-                Properties props = obj.has("properties") ? properties.get(obj.getString("properties")) : null;
+                JSONObject jObj = objects.getJSONObject(i);
+                String type = jObj.getString("type");
+                Integer repeat = jObj.has("repeat") ? jObj.getInt("repeat") : 1;
+                Properties props = jObj.has("properties") ? properties.get(jObj.getString("properties")) : null;
+                Team team = jObj.has("team") ? teams.get(jObj.getString("team")) : null;
+
 
                 while (repeat-- > 0) {
-                    Vector3 position = convertPosition(obj.getString("position"));
+                    Vector3 position = convertPosition(jObj.getString("position"));
+                    Object3D obj=null;
                     switch (type) {
                         case "asteroid1":
-                            new Asteroid(position, Renderer.asteroid1).insert(space);
+                            obj = new Asteroid(position, Renderer.asteroid1);
                             break;
                         case "asteroid2":
-                            new Asteroid(position, Renderer.asteroid2).insert(space);
+                            obj = new Asteroid(position, Renderer.asteroid2);
                             break;
                         case "asteroid3":
-                            new Asteroid(position, Renderer.asteroid3).insert(space);
+                            obj = new Asteroid(position, Renderer.asteroid3);
                             break;
                         case "asteroid4":
-                            new Asteroid(position, Renderer.asteroid4).insert(space);
+                            obj = new Asteroid(position, Renderer.asteroid4);
                             break;
                         case "flare":
-                            new BillBoard(position, Renderer.flare).insert(space);
+                            obj = new BillBoard(position, Renderer.flare);
                             break;
                         case "cloud":
-                            new Cloud(position, Renderer.clouds[random.nextInt(Renderer.clouds.length)]).insert(space);
+                            obj = new Cloud(position, Renderer.clouds[random.nextInt(Renderer.clouds.length)]);
                             break;
                         case "fighter":
-                            new SpaceShip(position, props).insert(space);
+                            obj = new SpaceShip(position, props);
                             break;
                         default:
                             System.err.println("MAP: object type not found!");
                             break;
+                    }
+                    if(obj!=null){
+                        obj.insert(space);
+                        if(team!=null){
+                            team.getObjects().add(obj);
+                        }
                     }
                 }
             }
