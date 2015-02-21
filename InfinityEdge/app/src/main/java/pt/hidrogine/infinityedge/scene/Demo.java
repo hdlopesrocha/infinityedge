@@ -1,15 +1,8 @@
 package pt.hidrogine.infinityedge.scene;
 
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.opengl.GLES20;
-import android.os.Debug;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,13 +14,10 @@ import hidrogine.math.IVector3;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
-import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.activity.Renderer;
-import pt.hidrogine.infinityedge.dto.Asteroid;
 import pt.hidrogine.infinityedge.dto.Bullet;
-import pt.hidrogine.infinityedge.dto.BillBoard;
+import pt.hidrogine.infinityedge.dto.Properties;
 import pt.hidrogine.infinityedge.dto.SpaceShip;
-import pt.hidrogine.infinityedge.util.FileString;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class Demo extends Scene {
@@ -38,7 +28,9 @@ public class Demo extends Scene {
 
 
     public Demo(Context context){
-        fighter = new SpaceShip(new Vector3(0,0,0), Renderer.fighter1);
+        Properties properties = new Properties(10, 0.1f, 35, 35, 100, 1);
+
+        fighter = new SpaceShip(new Vector3(0,0,0), Renderer.fighter1,properties);
         fighter.insert(space);
 
         load(context,"map/ctf/easy/01.json");
@@ -121,7 +113,7 @@ public class Demo extends Scene {
         IVector3 dir = new Vector3(0,0,1).transform(after);
         IVector3 side = new Vector3(1,0,0).transform(after);
 
-        obj.aceleration.set(0,0,0).addMultiply(dir,Renderer.accel*obj.maxAcceleration);
+        obj.aceleration.set(0,0,0).addMultiply(dir,Renderer.accel*obj.getProperties().getAcceleration());
         obj.move(delta_t);
         obj.update(space);
 

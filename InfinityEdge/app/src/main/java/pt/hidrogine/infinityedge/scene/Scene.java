@@ -11,21 +11,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.Stack;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import hidrogine.math.IBoundingSphere;
 import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
 import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.dto.Asteroid;
-import pt.hidrogine.infinityedge.dto.Bullet;
 import pt.hidrogine.infinityedge.dto.BillBoard;
+import pt.hidrogine.infinityedge.dto.Bullet;
 import pt.hidrogine.infinityedge.dto.Object3D;
+import pt.hidrogine.infinityedge.dto.Properties;
+import pt.hidrogine.infinityedge.dto.SpaceShip;
 import pt.hidrogine.infinityedge.model.Model;
-import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.util.FileString;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
@@ -153,6 +152,9 @@ public abstract class Scene {
                 JSONObject obj = objects.getJSONObject(i);
                 String type = obj.getString("type");
                 Integer repeat = obj.has("repeat")? obj.getInt("repeat"):1;
+
+                Properties properties = new Properties(10, 0.1f, 35, 35, 100, 1);
+
                 while (repeat-->0) {
                     Vector3 position = convertPosition(obj.getString("position"));
                     switch (type) {
@@ -173,6 +175,12 @@ public abstract class Scene {
                             break;
                         case "cloud":
                             new BillBoard(position, Renderer.smoke1).insert(space);
+                            break;
+                        case "fighter1":
+                            new SpaceShip(position, Renderer.fighter1,properties).insert(space);
+                            break;
+                        case "fighter2":
+                            new SpaceShip(position, Renderer.fighter2,properties).insert(space);
                             break;
                         default:
                             System.err.println("MAP: object type not found!");

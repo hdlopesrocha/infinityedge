@@ -1,10 +1,7 @@
 package pt.hidrogine.infinityedge.dto;
 
-import java.util.Random;
-
 import hidrogine.math.IModel3D;
 import hidrogine.math.IVector3;
-import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
 
 /**

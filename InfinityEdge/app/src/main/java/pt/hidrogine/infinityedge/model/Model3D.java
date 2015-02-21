@@ -2,12 +2,16 @@ package pt.hidrogine.infinityedge.model;
 
 import android.content.Context;
 
-import hidrogine.math.BoundingSphere;
-import hidrogine.math.Camera;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import hidrogine.math.BoundingSphere;
+import hidrogine.math.Camera;
 import hidrogine.math.IBoundingSphere;
 import hidrogine.math.IModel3D;
 import hidrogine.math.IVector3;
@@ -18,10 +22,6 @@ import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 import pt.hidrogine.infinityedge.util.TextureLoader;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 
 
 public class Model3D extends Model implements IModel3D{

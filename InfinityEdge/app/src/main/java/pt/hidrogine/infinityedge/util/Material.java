@@ -1,8 +1,5 @@
 package pt.hidrogine.infinityedge.util;
 
-import android.content.Context;
-
-
 public class Material {
     public Float[] Ka;
     public Float[] Kd;

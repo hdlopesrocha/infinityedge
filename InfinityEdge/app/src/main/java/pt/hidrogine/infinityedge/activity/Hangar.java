@@ -12,7 +12,6 @@ import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.dto.Object3D;
 import pt.hidrogine.infinityedge.scene.Background;
-import pt.hidrogine.infinityedge.scene.Scene;
 
 
 /**

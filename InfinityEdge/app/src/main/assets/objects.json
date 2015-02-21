@@ -1,0 +1,18 @@
+{
+    "f00":{
+        "attack":10,
+        "defence":10%,
+        "life":100,
+        "guns":1,
+        "velocity":35,
+        "acceleration":35
+    },
+    "f01":{
+        "attack":10,
+        "defence":10%,
+        "life":100,
+        "guns":1,
+        "velocity":35,
+        "acceleration":35
+    }
+}

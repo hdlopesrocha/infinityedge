@@ -1,7 +1,6 @@
 package pt.hidrogine.infinityedge.dto;
 
 import hidrogine.math.IModel3D;
-import hidrogine.math.IVector3;
 import hidrogine.math.Vector3;
 
 /**

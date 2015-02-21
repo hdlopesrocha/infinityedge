@@ -34,7 +34,12 @@
         },
         {
             "type":"fighter1",
-            "position":"2,2,2",
+            "position":"2,0,0",
+            "team":"m"
+        },
+        {
+            "type":"fighter2",
+            "position":"-2,0,0",
             "team":"m"
         }
     ]

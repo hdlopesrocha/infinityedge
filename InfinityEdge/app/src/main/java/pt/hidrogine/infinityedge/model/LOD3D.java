@@ -1,28 +1,11 @@
 package pt.hidrogine.infinityedge.model;
 
-import android.content.Context;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
-
-import hidrogine.math.BoundingSphere;
 import hidrogine.math.Camera;
 import hidrogine.math.IBoundingSphere;
 import hidrogine.math.IModel3D;
-import hidrogine.math.IVector3;
 import hidrogine.math.Matrix;
-import hidrogine.math.Quaternion;
-import hidrogine.math.Vector3;
-import pt.hidrogine.infinityedge.activity.Renderer;
-import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.MathHelper;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
-import pt.hidrogine.infinityedge.util.TextureLoader;
 
 
 public class LOD3D extends Model implements IModel3D{
