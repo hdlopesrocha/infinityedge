@@ -26,7 +26,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     public static LOD3D asteroid1;
     public static LOD3D asteroid2;
     public static LOD3D asteroid3;
-    public static Model3D asteroid4;
+    public static LOD3D asteroid4;
     public static Model3D flare;
     public static Model3D smoke1;
     public static Model3D bullet;
@@ -63,8 +63,10 @@ public class Renderer implements GLSurfaceView.Renderer {
                                 new Model3D(activity,loader,R.raw.asteroid3b,1.6f),
                                 new Model3D(activity,loader,R.raw.asteroid3c,1.6f),
                                 new Model3D(activity,loader,R.raw.asteroid3d,1.6f));
-
-        asteroid4 = new Model3D(activity,loader,R.raw.asteroid4,0.016f);
+        asteroid4 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid4a,0.016f),
+                                new Model3D(activity,loader,R.raw.asteroid4b,0.016f),
+                                new Model3D(activity,loader,R.raw.asteroid4c,0.016f),
+                                new Model3D(activity,loader,R.raw.asteroid4d,0.016f));
 
         sky = new Model3D(activity, loader,R.raw.sky1, 1f);
 

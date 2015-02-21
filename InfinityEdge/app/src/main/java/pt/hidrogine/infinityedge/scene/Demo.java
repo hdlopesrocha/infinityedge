@@ -3,8 +3,13 @@ package pt.hidrogine.infinityedge.scene;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.opengl.GLES20;
 import android.os.Debug;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -16,11 +21,13 @@ import hidrogine.math.IVector3;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
+import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.dto.Asteroid;
 import pt.hidrogine.infinityedge.dto.Bullet;
 import pt.hidrogine.infinityedge.dto.BillBoard;
 import pt.hidrogine.infinityedge.dto.SpaceShip;
+import pt.hidrogine.infinityedge.util.FileString;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class Demo extends Scene {
@@ -30,21 +37,13 @@ public class Demo extends Scene {
     private LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 
 
-    public Demo(){
+    public Demo(Context context){
         fighter = new SpaceShip(new Vector3(0,0,0), Renderer.fighter1);
         fighter.insert(space);
 
-        int size = 1024;
-        for(int i =0; i < 10000 ; ++i) {
-            new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid1).insert(space);
-            new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid2).insert(space);
-            new BillBoard(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.flare).insert(space);
-            new BillBoard(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.flare).insert(space);
-        }
+        load(context,"map/ctf/easy/01.json");
 
-        for(int i =0; i < 1000 ; ++i) {
-            new BillBoard(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.smoke1).insert(space);
-        }
+
     }
 
     float getRandom(){

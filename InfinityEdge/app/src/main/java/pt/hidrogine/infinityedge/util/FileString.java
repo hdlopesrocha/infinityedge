@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -40,6 +41,26 @@ public class FileString {
         }
     }
 
+    public static String readAsset(Context context, String path){
+        InputStream inputStream = null;
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            inputStream = context.getResources().getAssets().open(path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+
+            }
+            reader.close();
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
     public static String read(Context ctx, String path) {
         FileInputStream inputStream;
         StringBuilder sb = new StringBuilder();
@@ -59,5 +80,9 @@ public class FileString {
         }
         return sb.toString();
     }
+
+
+
+
 
 }
