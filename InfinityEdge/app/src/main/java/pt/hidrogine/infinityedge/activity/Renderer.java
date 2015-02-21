@@ -49,6 +49,7 @@ public class Renderer implements GLSurfaceView.Renderer {
 
         bullet = new Model3D(activity,loader,R.raw.bullet,0.006f, new Quaternion().createFromYawPitchRoll(0,(float)(Math.PI/2),0));
         flare = new Model3D(activity,loader,R.raw.flare,1f);
+
         smoke1 = new Model3D(activity,loader,R.raw.smoke1,50f);
 
         asteroid1 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid1a,0.8f),

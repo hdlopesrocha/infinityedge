@@ -114,7 +114,7 @@ public class Model3D extends Model implements IModel3D{
                             if ("map_Kd".equals(key)) {
                                 currentMaterial.setTexture(loader, value);
                             }
-                            System.out.println(materialName + " | " + key + " -> " + value);
+                    //        System.out.println(materialName + " | " + key + " -> " + value);
                         }
                     }
                 } else if ("groups".equals(name)) {
@@ -130,7 +130,7 @@ public class Model3D extends Model implements IModel3D{
                             jsonParser.nextToken(); // {
                             BufferObject currentSubGroup = new BufferObject();
                             currentGroup.subGroups.add(currentSubGroup);
-                            System.out.println("JSON INIT");
+                        //    System.out.println("JSON INIT");
                             while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
                                 String key = jsonParser.getCurrentName();
                                 if ("mm".equals(key)) {
@@ -203,9 +203,9 @@ public class Model3D extends Model implements IModel3D{
                                     }
                                 }
                             }
-                            System.out.println("JSON END");
+                      //      System.out.println("JSON END");
                             currentSubGroup.buildBuffer();
-                            System.out.println("JSON BUILD BUFFER");
+                      //      System.out.println("JSON BUILD BUFFER");
                         }
                     }
                     container = new BoundingSphere().createFromPoints(points);

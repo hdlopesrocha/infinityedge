@@ -11,6 +11,26 @@
             "name":"Marcians"
         }
     },
+    "properties":{
+        "f01":{
+            "model":"fighter1",
+            "attack":10,
+            "defence":0.1,
+            "life":100,
+            "guns":1,
+            "velocity":35,
+            "acceleration":35
+        },
+        "f02":{
+            "model":"fighter2",
+            "attack":10,
+            "defence":0.1,
+            "life":100,
+            "guns":1,
+            "velocity":35,
+            "acceleration":35
+        }
+    },
     "objects":[
         {
             "type":"asteroid1",

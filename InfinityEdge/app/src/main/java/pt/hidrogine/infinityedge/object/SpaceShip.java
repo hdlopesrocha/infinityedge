@@ -32,7 +32,7 @@ public class SpaceShip extends Object3D {
         final IVector3 accel = new Vector3(aceleration).addMultiply(velocity, -vel * properties.getFriction());
         velocity.addMultiply(accel, deltaT);
         getPosition().addMultiply(velocity,deltaT);
-        System.out.println(vel);
+ //       System.out.println(vel);
     }
 
 

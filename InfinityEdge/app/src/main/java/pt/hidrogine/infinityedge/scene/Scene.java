@@ -16,6 +16,8 @@ import java.util.TreeMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import hidrogine.math.Matrix;
+import hidrogine.math.Quaternion;
 import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
@@ -36,7 +38,8 @@ import pt.hidrogine.infinityedge.util.ShaderProgram;
  */
 public abstract class Scene {
     protected Space space = new Space();
-    private TreeMap<String,Properties> properties;
+    private TreeMap<String,Properties> properties = new TreeMap<String, Properties>();
+    ;
     private Random random = new Random();
     private int size;
 
@@ -76,7 +79,6 @@ public abstract class Scene {
         Collections.sort(alphaObjects,com);
         shader.disableLight();
         GLES20.glDisable(GL10.GL_DEPTH_TEST);
-        GLES20.glDisable(GL10.GL_CULL_FACE);
         for (Object3D obj : alphaObjects) {
             Model mod = (Model) obj.getModel();
             if(obj instanceof BillBoard){
@@ -86,28 +88,31 @@ public abstract class Scene {
             mod.draw(shader, Renderer.camera,obj.getModelMatrix());
         }
         shader.enableLight();
-        GLES20.glEnable(GL10.GL_CULL_FACE);
         GLES20.glEnable(GL10.GL_DEPTH_TEST);
 
-
-
-
-
-
+        Collections.sort(simpleObjects,com);
 
         for (Object3D obj : simpleObjects) {
+
             if(obj instanceof Asteroid) {
                 obj.getRotation().multiply(((Asteroid)obj).rotation).normalize();
             }
 
             if(obj instanceof Bullet) {
                 shader.disableLight();
+                shader.setDiffuseColor(1, 1, 0, 1);
             }
 
             Model mod = (Model) obj.getModel();
             mod.draw(shader, Renderer.camera, obj.getModelMatrix());
             if(obj instanceof Bullet) {
+                BillBoard billBoard = new BillBoard(obj.getPosition(),Renderer.flare);
+                billBoard.getRotation().set(Renderer.camera.getRotation()).conjugate();
+
+                Renderer.flare.draw(shader,Renderer.camera,billBoard.getModelMatrix());
+
                 shader.enableLight();
+                shader.setDiffuseColor(1, 1, 1, 1);
             }
         }
     }
@@ -135,28 +140,30 @@ public abstract class Scene {
 
 
         try {
-            properties = new TreeMap<String,Properties>();
-            JSONObject jProperties = new JSONObject(FileString.readAsset(context, "properties.json"));
-            Iterator<String> keys = jProperties.keys();
-            while (keys.hasNext()){
-                String key = keys.next();
-                JSONObject jObject = jProperties.getJSONObject(key);
-                properties.put(key,new Properties(jObject));
-            }
-
 
 
             JSONObject map = new JSONObject(FileString.readAsset(context, path));
             size = map.getInt("size");
 
+            if (map.has("properties")) {
+                JSONObject jProperties = map.getJSONObject("properties");
+                Iterator<String> keys = jProperties.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    JSONObject jObject = jProperties.getJSONObject(key);
+                    properties.put(key, new Properties(jObject));
+                }
+            }
+
+
             JSONArray objects = map.getJSONArray("objects");
-            for (int i=0; i < objects.length() ; ++i){
+            for (int i = 0; i < objects.length(); ++i) {
                 JSONObject obj = objects.getJSONObject(i);
                 String type = obj.getString("type");
-                Integer repeat = obj.has("repeat")? obj.getInt("repeat"):1;
+                Integer repeat = obj.has("repeat") ? obj.getInt("repeat") : 1;
                 Properties props = obj.has("properties") ? properties.get(obj.getString("properties")) : null;
 
-                while (repeat-->0) {
+                while (repeat-- > 0) {
                     Vector3 position = convertPosition(obj.getString("position"));
                     switch (type) {
                         case "asteroid1":
@@ -178,7 +185,7 @@ public abstract class Scene {
                             new BillBoard(position, Renderer.smoke1).insert(space);
                             break;
                         case "fighter":
-                            new SpaceShip(position,props).insert(space);
+                            new SpaceShip(position, props).insert(space);
                             break;
                         default:
                             System.err.println("MAP: object type not found!");
