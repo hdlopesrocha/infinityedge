@@ -83,6 +83,8 @@ public class Renderer implements GLSurfaceView.Renderer {
         currentScene = new Background();
         time = getTime();
         oldTime = time;
+        activity.remove();
+        activity.replace(new Home());
     }
 
 

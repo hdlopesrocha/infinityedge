@@ -15,7 +15,7 @@ import java.util.Stack;
 import pt.hidrogine.infinityedge.R;
 
 
-public class Game extends FragmentActivity implements  Home.OnFragmentInteractionListener, Style.OnFragmentInteractionListener, Control.OnFragmentInteractionListener, Hangar.OnFragmentInteractionListener{
+public class Game extends FragmentActivity implements  Home.OnFragmentInteractionListener, Style.OnFragmentInteractionListener, Control.OnFragmentInteractionListener, Hangar.OnFragmentInteractionListener, Loading.OnFragmentInteractionListener{
     private GLSurfaceView mGLSurfaceView;
 
     public static Game activity;
@@ -54,8 +54,12 @@ public class Game extends FragmentActivity implements  Home.OnFragmentInteractio
         }
 
 
-        replace( new Home());
+        replace( new Loading());
 
+    }
+
+    public void remove(){
+        fragments.pop();
     }
 
     public void replace(BaseFragment newFragment){
