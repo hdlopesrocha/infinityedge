@@ -16,16 +16,14 @@ import java.util.TreeMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import hidrogine.math.Matrix;
-import hidrogine.math.Quaternion;
 import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
 import pt.hidrogine.infinityedge.activity.Renderer;
-import pt.hidrogine.infinityedge.model.Model3D;
 import pt.hidrogine.infinityedge.object.Asteroid;
 import pt.hidrogine.infinityedge.object.BillBoard;
 import pt.hidrogine.infinityedge.object.Bullet;
+import pt.hidrogine.infinityedge.object.Cloud;
 import pt.hidrogine.infinityedge.object.Object3D;
 import pt.hidrogine.infinityedge.object.Properties;
 import pt.hidrogine.infinityedge.object.SpaceShip;
@@ -76,7 +74,7 @@ public abstract class Scene {
             }
         };
 
-        Collections.sort(alphaObjects,com);
+        Collections.sort(alphaObjects, com);
         shader.disableLight();
         GLES20.glDisable(GL10.GL_DEPTH_TEST);
         for (Object3D obj : alphaObjects) {
@@ -84,8 +82,15 @@ public abstract class Scene {
             if(obj instanceof BillBoard){
                 obj.getRotation().set(Renderer.camera.getRotation()).conjugate();
             }
+            if(obj instanceof Cloud) {
+                shader.setDiffuseColor(1,1,1,0.25f);
+            }
 
             mod.draw(shader, Renderer.camera,obj.getModelMatrix());
+
+            if(obj instanceof Cloud) {
+                shader.setDiffuseColor(1,1,1,1);
+            }
         }
         shader.enableLight();
         GLES20.glEnable(GL10.GL_DEPTH_TEST);
@@ -97,23 +102,24 @@ public abstract class Scene {
             if(obj instanceof Asteroid) {
                 obj.getRotation().multiply(((Asteroid)obj).rotation).normalize();
             }
-
-            if(obj instanceof Bullet) {
+            else if(obj instanceof Bullet) {
                 shader.disableLight();
                 shader.setDiffuseColor(1, 1, 0, 1);
             }
 
             Model mod = (Model) obj.getModel();
             mod.draw(shader, Renderer.camera, obj.getModelMatrix());
+
             if(obj instanceof Bullet) {
                 BillBoard billBoard = new BillBoard(obj.getPosition(),Renderer.flare);
                 billBoard.getRotation().set(Renderer.camera.getRotation()).conjugate();
 
-                Renderer.flare.draw(shader,Renderer.camera,billBoard.getModelMatrix());
+                Renderer.flare.draw(shader, Renderer.camera, billBoard.getModelMatrix());
 
                 shader.enableLight();
                 shader.setDiffuseColor(1, 1, 1, 1);
             }
+
         }
     }
 
@@ -182,7 +188,7 @@ public abstract class Scene {
                             new BillBoard(position, Renderer.flare).insert(space);
                             break;
                         case "cloud":
-                            new BillBoard(position, Renderer.smoke1).insert(space);
+                            new Cloud(position, Renderer.clouds[random.nextInt(Renderer.clouds.length)]).insert(space);
                             break;
                         case "fighter":
                             new SpaceShip(position, props).insert(space);

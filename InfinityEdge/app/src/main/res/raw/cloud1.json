@@ -1,7 +1,7 @@
 {
     "materials":{
         "box":{
-            "map_Kd":"holo_smoke1.png"
+            "map_Kd":"cloud1.png"
         }
     },
     "groups": {
