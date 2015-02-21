@@ -1,4 +1,4 @@
-package pt.hidrogine.infinityedge.dto;
+package pt.hidrogine.infinityedge.object;
 
 import java.util.Random;
 

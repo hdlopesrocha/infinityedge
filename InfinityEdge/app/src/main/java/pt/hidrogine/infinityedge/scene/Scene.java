@@ -9,8 +9,10 @@ import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.TreeMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -18,12 +20,13 @@ import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
 import pt.hidrogine.infinityedge.activity.Renderer;
-import pt.hidrogine.infinityedge.dto.Asteroid;
-import pt.hidrogine.infinityedge.dto.BillBoard;
-import pt.hidrogine.infinityedge.dto.Bullet;
-import pt.hidrogine.infinityedge.dto.Object3D;
-import pt.hidrogine.infinityedge.dto.Properties;
-import pt.hidrogine.infinityedge.dto.SpaceShip;
+import pt.hidrogine.infinityedge.model.Model3D;
+import pt.hidrogine.infinityedge.object.Asteroid;
+import pt.hidrogine.infinityedge.object.BillBoard;
+import pt.hidrogine.infinityedge.object.Bullet;
+import pt.hidrogine.infinityedge.object.Object3D;
+import pt.hidrogine.infinityedge.object.Properties;
+import pt.hidrogine.infinityedge.object.SpaceShip;
 import pt.hidrogine.infinityedge.model.Model;
 import pt.hidrogine.infinityedge.util.FileString;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
@@ -33,6 +36,7 @@ import pt.hidrogine.infinityedge.util.ShaderProgram;
  */
 public abstract class Scene {
     protected Space space = new Space();
+    private TreeMap<String,Properties> properties;
     private Random random = new Random();
     private int size;
 
@@ -130,20 +134,18 @@ public abstract class Scene {
     public void load(Context context, String path) {
 
 
-        /*
-              for(int i =0; i < 10000 ; ++i) {
-            new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid1).insert(space);
-            new Asteroid(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.asteroid3).insert(space);
-            new BillBoard(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.flare).insert(space);
-            new BillBoard(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.flare).insert(space);
-        }
-
-        for(int i =0; i < 1000 ; ++i) {
-            new BillBoard(new Vector3(getRandom()*size, getRandom()*size, getRandom()*size), Renderer.smoke1).insert(space);
-        }
-         */
-
         try {
+            properties = new TreeMap<String,Properties>();
+            JSONObject jProperties = new JSONObject(FileString.readAsset(context, "properties.json"));
+            Iterator<String> keys = jProperties.keys();
+            while (keys.hasNext()){
+                String key = keys.next();
+                JSONObject jObject = jProperties.getJSONObject(key);
+                properties.put(key,new Properties(jObject));
+            }
+
+
+
             JSONObject map = new JSONObject(FileString.readAsset(context, path));
             size = map.getInt("size");
 
@@ -152,8 +154,7 @@ public abstract class Scene {
                 JSONObject obj = objects.getJSONObject(i);
                 String type = obj.getString("type");
                 Integer repeat = obj.has("repeat")? obj.getInt("repeat"):1;
-
-                Properties properties = new Properties(10, 0.1f, 35, 35, 100, 1);
+                Properties props = obj.has("properties") ? properties.get(obj.getString("properties")) : null;
 
                 while (repeat-->0) {
                     Vector3 position = convertPosition(obj.getString("position"));
@@ -176,11 +177,8 @@ public abstract class Scene {
                         case "cloud":
                             new BillBoard(position, Renderer.smoke1).insert(space);
                             break;
-                        case "fighter1":
-                            new SpaceShip(position, Renderer.fighter1,properties).insert(space);
-                            break;
-                        case "fighter2":
-                            new SpaceShip(position, Renderer.fighter2,properties).insert(space);
+                        case "fighter":
+                            new SpaceShip(position,props).insert(space);
                             break;
                         default:
                             System.err.println("MAP: object type not found!");

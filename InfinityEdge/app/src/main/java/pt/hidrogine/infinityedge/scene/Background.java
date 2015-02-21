@@ -9,8 +9,8 @@ import hidrogine.math.Matrix;
 import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.activity.Renderer;
-import pt.hidrogine.infinityedge.dto.Asteroid;
-import pt.hidrogine.infinityedge.dto.Object3D;
+import pt.hidrogine.infinityedge.object.Asteroid;
+import pt.hidrogine.infinityedge.object.Object3D;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class Background extends Scene {

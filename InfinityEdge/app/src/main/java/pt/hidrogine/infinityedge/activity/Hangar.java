@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.R;
-import pt.hidrogine.infinityedge.dto.Object3D;
+import pt.hidrogine.infinityedge.object.Object3D;
 import pt.hidrogine.infinityedge.scene.Background;
 
 

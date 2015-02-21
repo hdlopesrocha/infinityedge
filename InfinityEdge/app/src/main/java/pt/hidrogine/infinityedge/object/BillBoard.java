@@ -1,4 +1,4 @@
-package pt.hidrogine.infinityedge.dto;
+package pt.hidrogine.infinityedge.object;
 
 import hidrogine.math.IModel3D;
 import hidrogine.math.Vector3;
