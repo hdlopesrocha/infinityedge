@@ -9,13 +9,13 @@ import pt.hidrogine.infinityedge.model.Model3D;
  * Created by Henrique on 12/02/2015.
  */
 public class SpaceShip extends Object3D {
-    public Properties properties;
-    public Vector3 aceleration, velocity;
+    private Properties properties;
+    private Vector3 acceleration, velocity;
 
 
     public SpaceShip(IVector3 position, Properties properties) {
         super(position, properties.getModel3D());
-        this.aceleration = new Vector3();
+        this.acceleration = new Vector3();
         this.velocity = new Vector3();
         this.properties = properties;
 
@@ -29,7 +29,7 @@ public class SpaceShip extends Object3D {
     public void move(float deltaT)
     {
         float vel = velocity.length();
-        final IVector3 accel = new Vector3(aceleration).addMultiply(velocity, -vel * properties.getFriction());
+        final IVector3 accel = new Vector3(acceleration).addMultiply(velocity, -vel * properties.getFriction());
         velocity.addMultiply(accel, deltaT);
         getPosition().addMultiply(velocity,deltaT);
  //       System.out.println(vel);
@@ -38,5 +38,13 @@ public class SpaceShip extends Object3D {
 
     public Properties getProperties() {
         return properties;
+    }
+
+    public Vector3 getVelocity() {
+        return velocity;
+    }
+
+    public Vector3 getAcceleration() {
+        return acceleration;
     }
 }

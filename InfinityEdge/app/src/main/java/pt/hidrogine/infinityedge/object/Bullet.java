@@ -16,7 +16,7 @@ public class Bullet extends Object3D {
     public Bullet(SpaceShip owner, IModel3D model) {
         super( new Vector3(owner.getPosition()), model);
 
-        float vel = owner.velocity.length();
+        float vel = owner.getVelocity().length();
         velocity = new Vector3(0,0,1).transform(owner.getRotation()).multiply(vel+70);
         getRotation().set(owner.getRotation());
 

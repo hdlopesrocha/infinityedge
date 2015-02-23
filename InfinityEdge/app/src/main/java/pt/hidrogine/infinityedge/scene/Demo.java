@@ -116,7 +116,7 @@ public class Demo extends Scene {
         IVector3 dir = new Vector3(0,0,1).transform(after);
         IVector3 side = new Vector3(1,0,0).transform(after);
 
-        obj.aceleration.set(0,0,0).addMultiply(dir,Renderer.accel*obj.getProperties().getAcceleration());
+        obj.getAcceleration().set(0,0,0).addMultiply(dir,Renderer.accel*obj.getProperties().getAcceleration());
         obj.move(delta_t);
         obj.update(space);
 
