@@ -11,7 +11,7 @@ import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import hidrogine.math.IVector3;
+import hidrogine.math.Vector3;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
@@ -113,9 +113,9 @@ public class Demo extends Scene {
         Quaternion after = obj.getRotation();
 
 
-        IVector3 up = new Vector3(0,1,0).transform(after);
-        IVector3 dir = new Vector3(0,0,1).transform(after);
-        IVector3 side = new Vector3(1,0,0).transform(after);
+        Vector3 up = new Vector3(0,1,0).transform(after);
+        Vector3 dir = new Vector3(0,0,1).transform(after);
+        Vector3 side = new Vector3(1,0,0).transform(after);
 
         obj.getAcceleration().set(0,0,0).addMultiply(dir,Renderer.accel*obj.getProperties().getAcceleration());
         obj.move(delta_t);
@@ -125,7 +125,7 @@ public class Demo extends Scene {
         animY = lerp(animY,Renderer.analogY,0.1f);
 
 
-        IVector3 pos = new Vector3(obj.getPosition()).addMultiply(dir,-4).addMultiply(up, 1).addMultiply(up,animY*.5f).addMultiply(side,-animX*.5f);
+        Vector3 pos = new Vector3(obj.getPosition()).addMultiply(dir,-4).addMultiply(up, 1).addMultiply(up,animY*.5f).addMultiply(side,-animX*.5f);
         Renderer.camera.lookAt(pos ,new Vector3(obj.getPosition()).addMultiply(dir,distance),up);
 
 

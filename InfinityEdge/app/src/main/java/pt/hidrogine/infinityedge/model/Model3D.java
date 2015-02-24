@@ -12,9 +12,9 @@ import java.util.TreeMap;
 
 import hidrogine.math.BoundingSphere;
 import hidrogine.math.Camera;
-import hidrogine.math.IBoundingSphere;
+import hidrogine.math.BoundingSphere;
 import hidrogine.math.IModel3D;
-import hidrogine.math.IVector3;
+import hidrogine.math.Vector3;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
@@ -27,14 +27,14 @@ import pt.hidrogine.infinityedge.util.TextureLoader;
 public class Model3D extends Model implements IModel3D{
 
     public ArrayList<Group> groups = new ArrayList<Group>();
-    private IBoundingSphere container;
-    private List<IVector3> lights = new ArrayList<IVector3>();
+    private BoundingSphere container;
+    private List<Vector3> lights = new ArrayList<Vector3>();
 
     public Model3D(final Context context, final TextureLoader loader, final int resource, final float scale) {
         this(context,loader,resource,scale,null);
     }
 
-    public List<IVector3> getLights() {
+    public List<Vector3> getLights() {
         return lights;
     }
 
@@ -140,7 +140,7 @@ public class Model3D extends Model implements IModel3D{
                                 ++k;
                             } else if (k == 2) {
                                 k = 0;
-                                IVector3 vec = new Vector3(x, y, val);
+                                Vector3 vec = new Vector3(x, y, val);
                                 if (rot != null) {
                                     vec.transform(rot);
                                 }
@@ -154,7 +154,7 @@ public class Model3D extends Model implements IModel3D{
 
 
                 } else if ("groups".equals(name)) {
-                    final List<IVector3> points = new ArrayList<IVector3>();
+                    final List<Vector3> points = new ArrayList<Vector3>();
                     jsonParser.nextToken(); // {
                     while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
                         String groupName = jsonParser.getCurrentName();
@@ -188,7 +188,7 @@ public class Model3D extends Model implements IModel3D{
                                             ++k;
                                         } else if (k == 2) {
                                             k = 0;
-                                            IVector3 vec = new Vector3(x, y, val);
+                                            Vector3 vec = new Vector3(x, y, val);
                                             if (rot != null) {
                                                 vec.transform(rot);
                                             }
@@ -218,7 +218,7 @@ public class Model3D extends Model implements IModel3D{
                                         }
                                         if (k == 2) {
                                             k = 0;
-                                            IVector3 vec = new Vector3(x, y, z);
+                                            Vector3 vec = new Vector3(x, y, z);
                                             if (rot != null) {
                                                 vec.transform(rot);
                                             }
@@ -267,7 +267,7 @@ public class Model3D extends Model implements IModel3D{
     }
 
     @Override
-    public IBoundingSphere getContainer() {
+    public BoundingSphere getContainer() {
         return container;
     }
 }

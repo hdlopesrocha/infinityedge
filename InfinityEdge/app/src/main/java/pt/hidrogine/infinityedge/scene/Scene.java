@@ -17,7 +17,7 @@ import java.util.TreeMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import hidrogine.math.IVector3;
+import hidrogine.math.Vector3;
 import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
@@ -117,13 +117,13 @@ public abstract class Scene {
             mod.draw(shader, Renderer.camera, obj.getModelMatrix());
 
 
-            List<IVector3> lights = mod.getLights();
+            List<Vector3> lights = mod.getLights();
             if(lights != null && lights.size()>0) {
                 shader.setDiffuseColor(1, 0, 0, (float) Math.sin(time*4)*.5f+.5f);
 
                 shader.disableLight();
-                for (IVector3 light : mod.getLights()) {
-                    IVector3 rot = new Vector3(light).transform(obj.getRotation()).add(obj.getPosition());
+                for (Vector3 light : mod.getLights()) {
+                    Vector3 rot = new Vector3(light).transform(obj.getRotation()).add(obj.getPosition());
                     BillBoard billBoard = new BillBoard(rot, Renderer.flare2);
                     billBoard.getRotation().set(Renderer.camera.getRotation()).conjugate();
                     Renderer.flare2.draw(shader, Renderer.camera, billBoard.getModelMatrix());

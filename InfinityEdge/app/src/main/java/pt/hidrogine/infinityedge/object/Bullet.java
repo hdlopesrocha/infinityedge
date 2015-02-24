@@ -1,7 +1,7 @@
 package pt.hidrogine.infinityedge.object;
 
 import hidrogine.math.IModel3D;
-import hidrogine.math.IVector3;
+import hidrogine.math.Vector3;
 import hidrogine.math.Vector3;
 
 /**
@@ -10,7 +10,7 @@ import hidrogine.math.Vector3;
 public class Bullet extends Object3D {
 
 
-    public IVector3 velocity;
+    public Vector3 velocity;
     public float timeToLive = 2;
 
     public Bullet(SpaceShip owner, IModel3D model) {

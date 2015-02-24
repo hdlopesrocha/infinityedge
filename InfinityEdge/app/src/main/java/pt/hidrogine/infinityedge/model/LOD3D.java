@@ -3,9 +3,9 @@ package pt.hidrogine.infinityedge.model;
 import java.util.List;
 
 import hidrogine.math.Camera;
-import hidrogine.math.IBoundingSphere;
+import hidrogine.math.BoundingSphere;
 import hidrogine.math.IModel3D;
-import hidrogine.math.IVector3;
+import hidrogine.math.Vector3;
 import hidrogine.math.Matrix;
 import pt.hidrogine.infinityedge.util.MathHelper;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
@@ -30,12 +30,12 @@ public class LOD3D extends Model implements IModel3D{
     }
 
     @Override
-    public List<IVector3> getLights() {
+    public List<Vector3> getLights() {
         return null;
     }
 
     @Override
-    public IBoundingSphere getContainer() {
+    public BoundingSphere getContainer() {
         return models[0].getContainer();
     }
 }

@@ -1,7 +1,7 @@
 package pt.hidrogine.infinityedge.object;
 
 import hidrogine.math.IModel3D;
-import hidrogine.math.IVector3;
+import hidrogine.math.Vector3;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.model.Model3D;
 
@@ -13,7 +13,7 @@ public class SpaceShip extends Object3D {
     private Vector3 acceleration, velocity;
 
 
-    public SpaceShip(IVector3 position, Properties properties) {
+    public SpaceShip(Vector3 position, Properties properties) {
         super(position, properties.getModel3D());
         this.acceleration = new Vector3();
         this.velocity = new Vector3();
@@ -29,7 +29,7 @@ public class SpaceShip extends Object3D {
     public void move(float deltaT)
     {
         float vel = velocity.length();
-        final IVector3 accel = new Vector3(acceleration).addMultiply(velocity, -vel * properties.getFriction());
+        final Vector3 accel = new Vector3(acceleration).addMultiply(velocity, -vel * properties.getFriction());
         velocity.addMultiply(accel, deltaT);
         getPosition().addMultiply(velocity,deltaT);
  //       System.out.println(vel);

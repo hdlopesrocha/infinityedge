@@ -4,7 +4,7 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 import hidrogine.math.Camera;
-import hidrogine.math.IVector3;
+import hidrogine.math.Vector3;
 import hidrogine.math.Matrix;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.R;
@@ -85,10 +85,10 @@ public class ShaderProgram {
         Matrix mProjectionMatrix = cam.getProjectionMatrix();
 
         GLES20.glUseProgram(mProgramHandle);
-        final IVector3 mLightPosInModelSpace = new Vector3(10.0f, 10.0f, 10.0f);
+        final Vector3 mLightPosInModelSpace = new Vector3(10.0f, 10.0f, 10.0f);
         mLightModelMatrix.createTranslation(0, 0, -1f);
-        final IVector3 mLightPosInWorldSpace = new Matrix().createTranslation(mLightPosInModelSpace).multiply(mLightModelMatrix).getTranslation();
-        final IVector3 mLightPosInEyeSpace = new Matrix().createTranslation(mLightPosInWorldSpace).multiply(mViewMatrix).getTranslation();
+        final Vector3 mLightPosInWorldSpace = new Matrix().createTranslation(mLightPosInModelSpace).multiply(mLightModelMatrix).getTranslation();
+        final Vector3 mLightPosInEyeSpace = new Matrix().createTranslation(mLightPosInWorldSpace).multiply(mViewMatrix).getTranslation();
         GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, model.multiply(mViewMatrix).toArray(), 0);
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, model.multiply(mProjectionMatrix).toArray(), 0);
         GLES20.glUniform3f(mLightPosHandle, mLightPosInEyeSpace.getX(), mLightPosInEyeSpace.getY(), mLightPosInEyeSpace.getZ());

@@ -3,7 +3,7 @@ package pt.hidrogine.infinityedge.object;
 import java.util.Random;
 
 import hidrogine.math.IModel3D;
-import hidrogine.math.IVector3;
+import hidrogine.math.Vector3;
 import hidrogine.math.Quaternion;
 
 /**
@@ -13,7 +13,7 @@ public class Asteroid extends Object3D {
    public Quaternion rotation;
 
 private  static Random random = new Random();
-    public Asteroid(IVector3 position, IModel3D model) {
+    public Asteroid(Vector3 position, IModel3D model) {
         super(position, model);
 
         rotation= new Quaternion(getRandom(),getRandom(),getRandom(),1f).normalize();
