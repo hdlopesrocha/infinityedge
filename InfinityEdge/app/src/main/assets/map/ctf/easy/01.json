@@ -2,7 +2,7 @@
     "name":"CTFE01",
     "type":"ctf",
     "sky":"sky1",
-    "size":1024,
+    "size":2048,
     "teams":{
         "h":{
             "name":"Humans"
@@ -34,12 +34,12 @@
     "objects":[
         {
             "type":"asteroid1",
-            "repeat":10000,
+            "repeat":6000,
             "position":"random"
         },
         {
             "type":"asteroid3",
-            "repeat":10000,
+            "repeat":6000,
             "position":"random"
         },
         {

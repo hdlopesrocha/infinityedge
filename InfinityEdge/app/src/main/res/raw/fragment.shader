@@ -38,8 +38,6 @@ void main()
 
 	// Multiply the color by the diffuse illumination level and texture value to get final output color.
     gl_FragColor = texture2D(u_Texture, v_TexCoordinate);
-      if(gl_FragColor.a < 0.01)
-        discard;
     gl_FragColor.xyz *= diffuse;
     gl_FragColor *= u_DiffuseColor;
     gl_FragColor.xyz += u_AmbientColor.xyz;

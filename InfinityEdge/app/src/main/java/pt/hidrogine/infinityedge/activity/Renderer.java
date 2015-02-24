@@ -51,30 +51,30 @@ public class Renderer implements GLSurfaceView.Renderer {
         flare = new Model3D(activity,loader,R.raw.flare,1f);
         flare2 = new Model3D(activity,loader,R.raw.flare,0.5f);
 
-        clouds[0] = new Model3D(activity,loader,R.raw.cloud1,50f);
-        clouds[1] = new Model3D(activity,loader,R.raw.cloud2,50f);
-        clouds[2] = new Model3D(activity,loader,R.raw.cloud3,50f);
-        clouds[3] = new Model3D(activity,loader,R.raw.cloud4,50f);
-        clouds[4] = new Model3D(activity,loader,R.raw.cloud5,50f);
-        clouds[5] = new Model3D(activity,loader,R.raw.cloud6,50f);
-        clouds[6] = new Model3D(activity,loader,R.raw.cloud7,50f);
+        clouds[0] = new Model3D(activity,loader,R.raw.cloud1,100f);
+        clouds[1] = new Model3D(activity,loader,R.raw.cloud2,100f);
+        clouds[2] = new Model3D(activity,loader,R.raw.cloud3,100f);
+        clouds[3] = new Model3D(activity,loader,R.raw.cloud4,100f);
+        clouds[4] = new Model3D(activity,loader,R.raw.cloud5,100f);
+        clouds[5] = new Model3D(activity,loader,R.raw.cloud6,100f);
+        clouds[6] = new Model3D(activity,loader,R.raw.cloud7,100f);
 
-        asteroid1 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid1a,0.8f),
-                                new Model3D(activity,loader,R.raw.asteroid1b,0.8f),
-                                new Model3D(activity,loader,R.raw.asteroid1c,0.8f),
-                                new Model3D(activity,loader,R.raw.asteroid1d,0.8f));
-        asteroid2 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid2a,1.4f),
-                                new Model3D(activity,loader,R.raw.asteroid2b,1.4f),
-                                new Model3D(activity,loader,R.raw.asteroid2c,1.4f),
-                                new Model3D(activity,loader,R.raw.asteroid2d,1.4f));
-        asteroid3 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid3a,1.6f),
-                                new Model3D(activity,loader,R.raw.asteroid3b,1.6f),
-                                new Model3D(activity,loader,R.raw.asteroid3c,1.6f),
-                                new Model3D(activity,loader,R.raw.asteroid3d,1.6f));
-        asteroid4 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid4a,0.016f),
-                                new Model3D(activity,loader,R.raw.asteroid4b,0.016f),
-                                new Model3D(activity,loader,R.raw.asteroid4c,0.016f),
-                                new Model3D(activity,loader,R.raw.asteroid4d,0.016f));
+        asteroid1 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid1a,1.6f),
+                                new Model3D(activity,loader,R.raw.asteroid1b,1.6f),
+                                new Model3D(activity,loader,R.raw.asteroid1c,1.6f),
+                                new Model3D(activity,loader,R.raw.asteroid1d,1.6f));
+        asteroid2 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid2a,2.8f),
+                                new Model3D(activity,loader,R.raw.asteroid2b,2.8f),
+                                new Model3D(activity,loader,R.raw.asteroid2c,2.8f),
+                                new Model3D(activity,loader,R.raw.asteroid2d,2.8f));
+        asteroid3 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid3a,3.2f),
+                                new Model3D(activity,loader,R.raw.asteroid3b,3.2f),
+                                new Model3D(activity,loader,R.raw.asteroid3c,3.2f),
+                                new Model3D(activity,loader,R.raw.asteroid3d,3.2f));
+        asteroid4 = new LOD3D(  new Model3D(activity,loader,R.raw.asteroid4a,0.032f),
+                                new Model3D(activity,loader,R.raw.asteroid4b,0.032f),
+                                new Model3D(activity,loader,R.raw.asteroid4c,0.032f),
+                                new Model3D(activity,loader,R.raw.asteroid4d,0.032f));
 
         sky = new Model3D(activity, loader,R.raw.sky1, 1f);
 

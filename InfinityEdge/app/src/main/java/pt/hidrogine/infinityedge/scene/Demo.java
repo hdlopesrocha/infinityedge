@@ -3,6 +3,7 @@ package pt.hidrogine.infinityedge.scene;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.os.Debug;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -34,9 +35,9 @@ public class Demo extends Scene {
 
         fighter = new SpaceShip(new Vector3(0,0,0),properties);
         fighter.insert(space);
-
+        //Debug.startMethodTracing("test.trace");
         load(context,"map/ctf/easy/01.json");
-
+        //Debug.stopMethodTracing();
 
     }
 
