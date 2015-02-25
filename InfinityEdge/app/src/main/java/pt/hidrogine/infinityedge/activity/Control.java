@@ -65,6 +65,7 @@ public class Control extends BaseFragment {
 
         stick.setX(analog.getX()+(ax+1)*analog.getWidth()*.5f-stick.getWidth()*.5f);
         stick.setY(analog.getY()+(ay+1)*analog.getHeight()*.5f-stick.getHeight()*.5f);
+
     }
 
 

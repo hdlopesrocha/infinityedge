@@ -35,9 +35,9 @@ public class Demo extends Scene {
 
         fighter = new SpaceShip(new Vector3(0,0,0),properties);
         fighter.insert(space);
-        //Debug.startMethodTracing("test.trace");
+      //  Debug.startMethodTracing("test.trace");
         load(context,"map/ctf/easy/01.json");
-        //Debug.stopMethodTracing();
+      //  Debug.stopMethodTracing();
 
     }
 
@@ -69,28 +69,13 @@ public class Demo extends Scene {
         }
 
 
-     //   System.out.println("MEM: " + getUsedMemorySize()/(1024*1024f));
+    //    System.out.println("MEM: " + getUsedMemorySize()/(1024*1024f));
 
 
 
     }
 
-    public static long getUsedMemorySize() {
 
-        long freeSize = 0L;
-        long totalSize = 0L;
-        long usedSize = -1L;
-        try {
-            Runtime info = Runtime.getRuntime();
-            freeSize = info.freeMemory();
-            totalSize = info.totalMemory();
-            usedSize = totalSize - freeSize;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return usedSize;
-
-    }
 
     private float animX =0,animY =0;
 

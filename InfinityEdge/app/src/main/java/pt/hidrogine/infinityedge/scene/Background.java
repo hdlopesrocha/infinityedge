@@ -36,6 +36,8 @@ public class Background extends Scene {
     @Override
     public void update(float delta_t){
         super.update(delta_t);
+ //       System.out.println("MEM: " + getUsedMemorySize()/(1024*1024f));
+
     }
 
     @Override
