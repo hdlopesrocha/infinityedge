@@ -79,6 +79,10 @@ public class ShaderProgram {
         setDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
+    private static final Vector3 TEMP_POS_WORLD = new Vector3();
+    private static final Vector3 TEMP_POS_EYE = new Vector3();
+    private static final Matrix TEMP_MATRIX = new Matrix();
+
 
     public void applyCamera(Camera cam, Matrix model) {
         Matrix mViewMatrix = cam.getViewMatrix();
@@ -87,10 +91,10 @@ public class ShaderProgram {
         GLES20.glUseProgram(mProgramHandle);
         final Vector3 mLightPosInModelSpace = new Vector3(10.0f, 10.0f, 10.0f);
         mLightModelMatrix.createTranslation(0, 0, -1f);
-        final Vector3 mLightPosInWorldSpace = new Matrix().createTranslation(mLightPosInModelSpace).multiply(mLightModelMatrix).getTranslation();
-        final Vector3 mLightPosInEyeSpace = new Matrix().createTranslation(mLightPosInWorldSpace).multiply(mViewMatrix).getTranslation();
-        GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, model.multiply(mViewMatrix).toArray(), 0);
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, model.multiply(mProjectionMatrix).toArray(), 0);
+        final Vector3 mLightPosInWorldSpace = TEMP_POS_WORLD.set(TEMP_MATRIX.createTranslation(mLightPosInModelSpace).multiply(mLightModelMatrix).getTranslation());
+        final Vector3 mLightPosInEyeSpace = TEMP_POS_EYE.set(TEMP_MATRIX.createTranslation(mLightPosInWorldSpace).multiply(mViewMatrix).getTranslation());
+        GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, model.multiply(mViewMatrix).M, 0);
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, model.multiply(mProjectionMatrix).M, 0);
         GLES20.glUniform3f(mLightPosHandle, mLightPosInEyeSpace.getX(), mLightPosInEyeSpace.getY(), mLightPosInEyeSpace.getZ());
         GLES20.glUniform1f(mFar,cam.getFar());
 

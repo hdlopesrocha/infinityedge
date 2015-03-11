@@ -55,7 +55,7 @@ public abstract class Scene {
 
 
         /* DRAW OBJECTS */
-        space.handleVisibleObjects(Renderer.camera.getBoundingFrustum(), new VisibleObjectHandler() {
+        space.handleVisibleObjects(Renderer.camera, new VisibleObjectHandler() {
             @Override
             public void onObjectVisible(Object o) {
                 Object3D obj = (Object3D) o;

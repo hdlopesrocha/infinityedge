@@ -19,6 +19,7 @@ import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.object.Bullet;
 import pt.hidrogine.infinityedge.object.Properties;
 import pt.hidrogine.infinityedge.object.SpaceShip;
+import pt.hidrogine.infinityedge.util.MathHelper;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class Demo extends Scene {
@@ -80,10 +81,7 @@ public class Demo extends Scene {
     private float animX =0,animY =0;
 
 
-    public static float lerp(float value1, float value2, float amount)
-    {
-        return value1 + (value2 - value1) * amount;
-    }
+
 
     private void controlObject(SpaceShip obj, float delta_t){
       //  obj._aceleration = _object._ray.Direction * _object._physics._acelerationMax * _control.analogAcel.Value;
@@ -106,8 +104,8 @@ public class Demo extends Scene {
         obj.move(delta_t);
         obj.update(space);
 
-        animX = lerp(animX,Renderer.analogX,0.1f);
-        animY = lerp(animY,Renderer.analogY,0.1f);
+        animX = MathHelper.lerp(animX,Renderer.analogX,0.1f);
+        animY = MathHelper.lerp(animY,Renderer.analogY,0.1f);
 
 
         Vector3 pos = new Vector3(obj.getPosition()).addMultiply(dir,-4).addMultiply(up, 1).addMultiply(up,animY*.5f).addMultiply(side,-animX*.5f);
@@ -120,7 +118,7 @@ public class Demo extends Scene {
 
     @Override
     public void draw(final ShaderProgram shader){
-        shader.applyCamera(Renderer.camera,new Matrix().identity());
+        shader.applyCamera(Renderer.camera, new Matrix().identity());
         drawSky(shader);
         super.draw(shader);
 
