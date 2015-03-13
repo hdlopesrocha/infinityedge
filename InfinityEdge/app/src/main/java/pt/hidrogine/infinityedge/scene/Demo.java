@@ -70,7 +70,7 @@ public class Demo extends Scene {
         }
 
 
-       // System.out.println("MEM: " + getUsedMemorySize()/(1024*1024f));
+        System.out.println("MEM: " + getUsedMemorySize()/(1024*1024f));
 
 
 

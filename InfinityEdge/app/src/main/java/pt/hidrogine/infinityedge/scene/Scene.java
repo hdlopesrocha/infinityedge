@@ -38,7 +38,7 @@ import pt.hidrogine.infinityedge.util.ShaderProgram;
  * Created by Henrique on 12/02/2015.
  */
 public abstract class Scene {
-    protected Space space = new Space();
+    protected Space space = new Space(32);
     private TreeMap<String,Properties> properties = new TreeMap<String, Properties>();
     private Random random = new Random();
     private int size;

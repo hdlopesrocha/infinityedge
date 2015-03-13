@@ -100,6 +100,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
         camera.update(width,height);
+        camera.update();
     }
 
 
