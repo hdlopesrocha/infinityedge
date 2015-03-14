@@ -12,9 +12,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import hidrogine.math.MathHelper;
 import pt.hidrogine.infinityedge.R;
 import pt.hidrogine.infinityedge.scene.Background;
-import pt.hidrogine.infinityedge.util.MathHelper;
 import pt.hidrogine.infinityedge.util.VerticalSeekBar;
 
 
@@ -105,7 +105,7 @@ public class Control extends BaseFragment {
 
             @Override
             public synchronized boolean onTouch(View v, MotionEvent event) {
-                float x = MathHelper.clamp((event.getX() / v.getWidth()) * 2f - 1f,-1,1);
+                float x = MathHelper.clamp((event.getX() / v.getWidth()) * 2f - 1f, -1, 1);
                 float y = MathHelper.clamp((event.getY() / v.getHeight()) * 2f - 1f,-1,1);
 
                 switch (event.getAction()) {

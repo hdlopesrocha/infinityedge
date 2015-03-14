@@ -10,6 +10,7 @@ import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import hidrogine.math.MathHelper;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
@@ -17,7 +18,6 @@ import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.object.Bullet;
 import pt.hidrogine.infinityedge.object.Properties;
 import pt.hidrogine.infinityedge.object.SpaceShip;
-import pt.hidrogine.infinityedge.util.MathHelper;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class Demo extends Scene {
@@ -102,7 +102,7 @@ public class Demo extends Scene {
         obj.move(delta_t);
         obj.update(space);
 
-        animX = MathHelper.lerp(animX,Renderer.analogX,0.1f);
+        animX = MathHelper.lerp(animX, Renderer.analogX, 0.1f);
         animY = MathHelper.lerp(animY,Renderer.analogY,0.1f);
 
 

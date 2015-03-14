@@ -5,9 +5,9 @@ import java.util.List;
 import hidrogine.math.BoundingSphere;
 import hidrogine.math.Camera;
 import hidrogine.math.IModel3D;
+import hidrogine.math.MathHelper;
 import hidrogine.math.Matrix;
 import hidrogine.math.Vector3;
-import pt.hidrogine.infinityedge.util.MathHelper;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 
@@ -25,7 +25,7 @@ public class LOD3D extends Model implements IModel3D{
         float levelSize = camera.getFar()/models.length;
 
 
-        int model = MathHelper.clamp((int) Math.floor(distance/ levelSize),0,models.length-1);
+        int model = MathHelper.clamp((int) Math.floor(distance / levelSize), 0, models.length - 1);
         models[model].draw(shader,camera,matrix);
     }
 
