@@ -2,6 +2,8 @@ package pt.hidrogine.infinityedge.model;
 
 import android.content.Context;
 
+import java.io.InputStream;
+
 import hidrogine.math.Camera;
 import hidrogine.math.Group;
 import hidrogine.math.IBufferBuilder;
@@ -19,8 +21,8 @@ import pt.hidrogine.infinityedge.util.TextureLoader;
 public class AndroidModel3D extends Model3D {
 
 
-    public AndroidModel3D(final Context context, final TextureLoader loader, final int resource, final float scale) {
-        this(context,loader,resource,scale,null);
+    public AndroidModel3D(final InputStream stream, final TextureLoader loader, final float scale) {
+        this(stream,loader,scale,null);
     }
 
     public AndroidModel3D(){
@@ -28,8 +30,8 @@ public class AndroidModel3D extends Model3D {
     }
 
 
-    public AndroidModel3D(final Context context, final TextureLoader loader, final int resource, final float scale, final Quaternion rot) {
-        super(context.getResources().openRawResource(resource),scale,new IBufferBuilder() {
+    public AndroidModel3D(final InputStream stream, final TextureLoader loader, final float scale, final Quaternion rot) {
+        super(stream,scale,new IBufferBuilder() {
             @Override
             public IBufferObject build() {
 

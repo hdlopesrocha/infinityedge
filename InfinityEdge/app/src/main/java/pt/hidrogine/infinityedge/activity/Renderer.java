@@ -44,39 +44,39 @@ public class Renderer implements GLSurfaceView.Renderer {
         TextureLoader loader = new TextureLoader(activity);
 
         //Debug.startMethodTracing("myapp");
-        fighter1 = new AndroidModel3D(activity,loader, R.raw.fighter1, 0.02f);
-        fighter2 = new AndroidModel3D(activity,loader, R.raw.fighter2, 1.5f);
+        fighter1 = new AndroidModel3D(activity.getResources().openRawResource(R.raw.fighter1),loader, 0.02f);
+        fighter2 = new AndroidModel3D(activity.getResources().openRawResource(R.raw.fighter2), loader, 1.5f);
 
-        bullet = new AndroidModel3D(activity,loader,R.raw.bullet,0.006f, new Quaternion().createFromYawPitchRoll(0,(float)(Math.PI/2),0));
-        flare = new AndroidModel3D(activity,loader,R.raw.flare,1f);
-        flare2 = new AndroidModel3D(activity,loader,R.raw.flare,0.5f);
+        bullet = new AndroidModel3D(activity.getResources().openRawResource(R.raw.bullet),loader,0.006f, new Quaternion().createFromYawPitchRoll(0,(float)(Math.PI/2),0));
+        flare = new AndroidModel3D(activity.getResources().openRawResource(R.raw.flare),loader,1f);
+        flare2 = new AndroidModel3D(activity.getResources().openRawResource(R.raw.flare),loader,0.5f);
 
-        clouds[0] = new AndroidModel3D(activity,loader,R.raw.cloud1,100f);
-        clouds[1] = new AndroidModel3D(activity,loader,R.raw.cloud2,100f);
-        clouds[2] = new AndroidModel3D(activity,loader,R.raw.cloud3,100f);
-        clouds[3] = new AndroidModel3D(activity,loader,R.raw.cloud4,100f);
-        clouds[4] = new AndroidModel3D(activity,loader,R.raw.cloud5,100f);
-        clouds[5] = new AndroidModel3D(activity,loader,R.raw.cloud6,100f);
-        clouds[6] = new AndroidModel3D(activity,loader,R.raw.cloud7,100f);
+        clouds[0] = new AndroidModel3D(activity.getResources().openRawResource(R.raw.cloud1),loader,100f);
+        clouds[1] = new AndroidModel3D(activity.getResources().openRawResource(R.raw.cloud2),loader,100f);
+        clouds[2] = new AndroidModel3D(activity.getResources().openRawResource(R.raw.cloud3),loader,100f);
+        clouds[3] = new AndroidModel3D(activity.getResources().openRawResource(R.raw.cloud4),loader,100f);
+        clouds[4] = new AndroidModel3D(activity.getResources().openRawResource(R.raw.cloud5),loader,100f);
+        clouds[5] = new AndroidModel3D(activity.getResources().openRawResource(R.raw.cloud6),loader,100f);
+        clouds[6] = new AndroidModel3D(activity.getResources().openRawResource(R.raw.cloud7),loader,100f);
 
-        asteroid1 = new LOD3D(  new AndroidModel3D(activity,loader,R.raw.asteroid1a,1.6f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid1b,1.6f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid1c,1.6f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid1d,1.6f));
-        asteroid2 = new LOD3D(  new AndroidModel3D(activity,loader,R.raw.asteroid2a,2.8f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid2b,2.8f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid2c,2.8f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid2d,2.8f));
-        asteroid3 = new LOD3D(  new AndroidModel3D(activity,loader,R.raw.asteroid3a,3.2f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid3b,3.2f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid3c,3.2f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid3d,3.2f));
-        asteroid4 = new LOD3D(  new AndroidModel3D(activity,loader,R.raw.asteroid4a,0.032f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid4b,0.032f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid4c,0.032f),
-                                new AndroidModel3D(activity,loader,R.raw.asteroid4d,0.032f));
+        asteroid1 = new LOD3D(  new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid1a),loader,1.6f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid1b),loader,1.6f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid1c),loader,1.6f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid1d),loader,1.6f));
+        asteroid2 = new LOD3D(  new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid2a),loader,2.8f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid2b),loader,2.8f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid2c),loader,2.8f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid2d),loader,2.8f));
+        asteroid3 = new LOD3D(  new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid3a),loader,3.2f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid3b),loader,3.2f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid3c),loader,3.2f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid3d),loader,3.2f));
+        asteroid4 = new LOD3D(  new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid4a),loader,0.032f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid4b),loader,0.032f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid4c),loader,0.032f),
+                                new AndroidModel3D(activity.getResources().openRawResource(R.raw.asteroid4d),loader,0.032f));
 
-        sky = new AndroidModel3D(activity, loader,R.raw.sky1, 1f);
+        sky = new AndroidModel3D(activity.getResources().openRawResource(R.raw.sky1),loader, 1f);
 
         //Debug.stopMethodTracing();
 
