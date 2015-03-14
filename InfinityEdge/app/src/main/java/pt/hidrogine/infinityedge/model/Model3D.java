@@ -15,11 +15,12 @@ import hidrogine.math.Camera;
 import hidrogine.math.Group;
 import hidrogine.math.IBufferObject;
 import hidrogine.math.IModel3D;
+import hidrogine.math.ITextureLoader;
+import hidrogine.math.Material;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.activity.Renderer;
-import pt.hidrogine.infinityedge.util.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 import pt.hidrogine.infinityedge.util.TextureLoader;
 
@@ -109,7 +110,7 @@ public class Model3D extends Model implements IModel3D{
                     jsonParser.nextToken();
                     while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
                         String materialName = jsonParser.getCurrentName();
-                        Material currentMaterial = new Material();
+                        Material currentMaterial = new Material(materialName);
                         materials.put(materialName, currentMaterial);
                         jsonParser.nextToken();
                         while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
@@ -117,7 +118,7 @@ public class Model3D extends Model implements IModel3D{
                             jsonParser.nextToken();
                             String value = jsonParser.getValueAsString();
                             if ("map_Kd".equals(key)) {
-                                currentMaterial.setTexture(loader, value);
+                                currentMaterial.setTexture(value);
                             }
                             //        System.out.println(materialName + " | " + key + " -> " + value);
                         }
@@ -225,6 +226,19 @@ public class Model3D extends Model implements IModel3D{
                     }
                     container = new BoundingSphere().createFromPoints(points);
                 }
+            }
+
+
+            for(final Material m : materials.values()){
+                m.load(new ITextureLoader() {
+                    @Override
+                    public int load() {
+                        String mapKd = m.filename.split("\\.")[0];
+
+                        return loader.load(mapKd );
+                    }
+                });
+
             }
 
         } catch (Exception e) {
