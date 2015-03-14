@@ -229,10 +229,28 @@ public class Model3D extends Model implements IModel3D{
                                         }
                                     }
                                 } else if ("vt".equals(key)) {
+                                    int k = 0;
+                                    float x = 0, y = 0;
+
                                     jsonParser.nextToken(); // [
                                     while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                                         float val = jsonParser.getFloatValue();
-                                        currentSubGroup.addTexture(val);
+                                        switch (k) {
+                                            case 0:
+                                                x = val;
+                                                break;
+                                            case 1:
+                                                y = val;
+                                                break;
+                                        }
+                                        if (k == 1) {
+                                            k = 0;
+                                            currentSubGroup.addTexture(x,y);
+                                        } else {
+                                            ++k;
+                                        }
+
+
                                     }
                                 } else if ("ii".equals(key)) {
                                     jsonParser.nextToken(); // [

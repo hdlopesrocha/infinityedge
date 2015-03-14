@@ -22,6 +22,7 @@ public class Background extends Scene {
         space2 = space;
         selectedObject =  new Object3D(new Vector3(0,0,0), Renderer.fighter1);
         selectedObject.insert(space);
+        
         new Asteroid(new Vector3(20,0,0), Renderer.asteroid1).insert(space);
         new Asteroid(new Vector3(-20,0,0), Renderer.asteroid2).insert(space);
         new Asteroid(new Vector3(0,0,20), Renderer.asteroid3).insert(space);
