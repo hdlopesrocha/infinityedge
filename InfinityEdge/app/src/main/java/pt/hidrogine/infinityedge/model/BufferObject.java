@@ -5,7 +5,6 @@ import android.opengl.GLES20;
 import java.nio.IntBuffer;
 
 import hidrogine.math.IBufferObject;
-import hidrogine.math.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class BufferObject extends IBufferObject{

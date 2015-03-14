@@ -4,14 +4,13 @@ import java.util.List;
 
 import hidrogine.math.BoundingSphere;
 import hidrogine.math.Camera;
-import hidrogine.math.IModel3D;
 import hidrogine.math.MathHelper;
 import hidrogine.math.Matrix;
 import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 
-public class LOD3D extends AndroidModel3D implements IModel3D{
+public class LOD3D extends AndroidModel3D {
 
     AndroidModel3D[] models;
 
