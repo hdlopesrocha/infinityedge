@@ -21,7 +21,7 @@ import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
 import pt.hidrogine.infinityedge.activity.Renderer;
-import pt.hidrogine.infinityedge.model.Model;
+import pt.hidrogine.infinityedge.model.AndroidModel3D;
 import pt.hidrogine.infinityedge.object.Asteroid;
 import pt.hidrogine.infinityedge.object.BillBoard;
 import pt.hidrogine.infinityedge.object.Bullet;
@@ -83,7 +83,7 @@ public abstract class Scene {
         shader.disableLight();
         GLES20.glDisable(GL10.GL_DEPTH_TEST);
         for (Object3D obj : alphaObjects) {
-            Model mod = (Model) obj.getModel();
+            AndroidModel3D mod = (AndroidModel3D) obj.getModel();
             if(obj instanceof BillBoard){
                 obj.getRotation().set(Renderer.camera.getRotation()).conjugate();
             }
@@ -112,7 +112,7 @@ public abstract class Scene {
                 shader.setDiffuseColor(1, 1, 0, 1);
             }
 
-            Model mod = (Model) obj.getModel();
+            AndroidModel3D mod = (AndroidModel3D) obj.getModel();
             mod.draw(shader, Renderer.camera, obj.getModelMatrix());
 
 

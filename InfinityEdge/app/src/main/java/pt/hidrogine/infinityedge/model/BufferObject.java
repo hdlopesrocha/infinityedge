@@ -9,7 +9,6 @@ import hidrogine.math.Material;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 public class BufferObject extends IBufferObject{
-    private Material material;
     static final int POSITION_DATA_SIZE = 3;
     static final int NORMAL_DATA_SIZE = 3;
     static final int TEXTURE_COORDINATE_DATA_SIZE = 2;
@@ -21,9 +20,6 @@ public class BufferObject extends IBufferObject{
         super(false);
     }
 
-    public void setMaterial(Material f) {
-        material = f;
-    }
 
 
     public void buildBuffer() {

@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pt.hidrogine.infinityedge.activity.Renderer;
-import pt.hidrogine.infinityedge.model.Model3D;
+import pt.hidrogine.infinityedge.model.AndroidModel3D;
 
 /**
  * Created by Henrique on 21/02/2015.
@@ -66,7 +66,7 @@ public class Properties {
         }
     }
 
-    public Model3D getModel3D(){
+    public AndroidModel3D getModel3D(){
         switch (getModel()){
             case "fighter1": return Renderer.fighter1;
             case "fighter2": return Renderer.fighter2;

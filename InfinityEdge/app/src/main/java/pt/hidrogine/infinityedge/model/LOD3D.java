@@ -11,11 +11,11 @@ import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 
 
-public class LOD3D extends Model implements IModel3D{
+public class LOD3D extends AndroidModel3D implements IModel3D{
 
-    Model3D [] models;
+    AndroidModel3D[] models;
 
-    public LOD3D(final Model3D ... models) {
+    public LOD3D(final AndroidModel3D... models) {
         this.models = models;
     }
 
