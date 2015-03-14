@@ -3,8 +3,8 @@ package pt.hidrogine.infinityedge.object;
 import java.util.Random;
 
 import hidrogine.math.IModel3D;
-import hidrogine.math.Vector3;
 import hidrogine.math.Quaternion;
+import hidrogine.math.Vector3;
 
 /**
  * Created by Henrique on 12/02/2015.

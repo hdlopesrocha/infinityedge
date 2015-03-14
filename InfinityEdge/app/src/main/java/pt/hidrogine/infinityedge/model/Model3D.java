@@ -12,9 +12,9 @@ import java.util.TreeMap;
 
 import hidrogine.math.BoundingSphere;
 import hidrogine.math.Camera;
-import hidrogine.math.BoundingSphere;
+import hidrogine.math.Group;
+import hidrogine.math.IBufferObject;
 import hidrogine.math.IModel3D;
-import hidrogine.math.Vector3;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;
@@ -159,13 +159,12 @@ public class Model3D extends Model implements IModel3D{
                     while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
                         String groupName = jsonParser.getCurrentName();
                         jsonParser.nextToken(); // [
-                        Group currentGroup = new Group();
+                        Group currentGroup = new Group(groupName);
                         groups.add(currentGroup);
-                        currentGroup.name = groupName;
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                             jsonParser.nextToken(); // {
                             BufferObject currentSubGroup = new BufferObject();
-                            currentGroup.subGroups.add(currentSubGroup);
+                            currentGroup.addBuffer(currentSubGroup);
                             //    System.out.println("JSON INIT");
                             while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
                                 String key = jsonParser.getCurrentName();
@@ -173,84 +172,43 @@ public class Model3D extends Model implements IModel3D{
                                     String mm = jsonParser.getValueAsString();
                                     currentSubGroup.setMaterial(materials.get(mm));
                                 } else if ("vv".equals(key)) {
-                                    int k = 0;
-                                    float x = 0, y = 0;
-
                                     jsonParser.nextToken(); // [
                                     while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
-                                        float val = jsonParser.getFloatValue() * scale;
-                                        if (k == 0) {
-                                            x = val;
-                                            ++k;
-                                        } else if (k == 1) {
-                                            y = val;
-                                            currentGroup.maxY = Math.max(currentGroup.maxY, val);
-                                            ++k;
-                                        } else if (k == 2) {
-                                            k = 0;
-                                            Vector3 vec = new Vector3(x, y, val);
-                                            if (rot != null) {
-                                                vec.transform(rot);
-                                            }
-                                            points.add(vec);
-                                            currentSubGroup.addVertex(vec.getX(), vec.getY(), vec.getZ());
+                                        float x = jsonParser.getFloatValue() * scale;
+                                        jsonParser.nextToken();
+                                        float y = jsonParser.getFloatValue() * scale;
+                                        jsonParser.nextToken();
+                                        float z = jsonParser.getFloatValue() * scale;
+                                        Vector3 vec = new Vector3(x, y, z);
+                                        if (rot != null) {
+                                            vec.transform(rot);
                                         }
-
-
+                                        points.add(vec);
+                                        currentSubGroup.addVertex(vec.getX(), vec.getY(), vec.getZ());
                                     }
                                 } else if ("vn".equals(key)) {
-                                    int k = 0;
-                                    float x = 0, y = 0, z = 0;
+
 
                                     jsonParser.nextToken(); // [
                                     while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
-                                        float val = jsonParser.getFloatValue();
-                                        switch (k) {
-                                            case 0:
-                                                x = val;
-                                                break;
-                                            case 1:
-                                                y = val;
-                                                break;
-                                            case 2:
-                                                z = val;
-                                                break;
+                                        float x = jsonParser.getFloatValue();
+                                        jsonParser.nextToken();
+                                        float y = jsonParser.getFloatValue();
+                                        jsonParser.nextToken();
+                                        float z = jsonParser.getFloatValue();
+                                        Vector3 vec = new Vector3(x, y, z);
+                                        if (rot != null) {
+                                            vec.transform(rot);
                                         }
-                                        if (k == 2) {
-                                            k = 0;
-                                            Vector3 vec = new Vector3(x, y, z);
-                                            if (rot != null) {
-                                                vec.transform(rot);
-                                            }
-                                            currentSubGroup.addNormal(vec.getX(), vec.getY(), vec.getZ());
-
-                                        } else {
-                                            ++k;
-                                        }
+                                        currentSubGroup.addNormal(vec.getX(), vec.getY(), vec.getZ());
                                     }
                                 } else if ("vt".equals(key)) {
-                                    int k = 0;
-                                    float x = 0, y = 0;
-
                                     jsonParser.nextToken(); // [
                                     while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
-                                        float val = jsonParser.getFloatValue();
-                                        switch (k) {
-                                            case 0:
-                                                x = val;
-                                                break;
-                                            case 1:
-                                                y = val;
-                                                break;
-                                        }
-                                        if (k == 1) {
-                                            k = 0;
-                                            currentSubGroup.addTexture(x,y);
-                                        } else {
-                                            ++k;
-                                        }
-
-
+                                        float x = jsonParser.getFloatValue();
+                                        jsonParser.nextToken();
+                                        float y = jsonParser.getFloatValue();
+                                        currentSubGroup.addTexture(x, y);
                                     }
                                 } else if ("ii".equals(key)) {
                                     jsonParser.nextToken(); // [
@@ -278,8 +236,9 @@ public class Model3D extends Model implements IModel3D{
         shader.applyCamera(Renderer.camera, matrix);
 
         for (Group g : groups) {
-            for (BufferObject sg : g.subGroups) {
-                sg.draw(shader);
+            for (IBufferObject ib : g.getBuffers()) {
+                BufferObject b = (BufferObject) ib;
+                b.draw(shader);
             }
         }
     }

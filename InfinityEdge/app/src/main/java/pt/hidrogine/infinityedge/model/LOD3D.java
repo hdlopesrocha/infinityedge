@@ -2,11 +2,11 @@ package pt.hidrogine.infinityedge.model;
 
 import java.util.List;
 
-import hidrogine.math.Camera;
 import hidrogine.math.BoundingSphere;
+import hidrogine.math.Camera;
 import hidrogine.math.IModel3D;
-import hidrogine.math.Vector3;
 import hidrogine.math.Matrix;
+import hidrogine.math.Vector3;
 import pt.hidrogine.infinityedge.util.MathHelper;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 

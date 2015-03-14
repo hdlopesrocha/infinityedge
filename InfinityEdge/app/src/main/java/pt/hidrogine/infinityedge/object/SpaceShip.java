@@ -1,9 +1,6 @@
 package pt.hidrogine.infinityedge.object;
 
-import hidrogine.math.IModel3D;
 import hidrogine.math.Vector3;
-import hidrogine.math.Vector3;
-import pt.hidrogine.infinityedge.model.Model3D;
 
 /**
  * Created by Henrique on 12/02/2015.

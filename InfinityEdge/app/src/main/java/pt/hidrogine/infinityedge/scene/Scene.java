@@ -17,11 +17,11 @@ import java.util.TreeMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import hidrogine.math.Vector3;
 import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
 import pt.hidrogine.infinityedge.activity.Renderer;
+import pt.hidrogine.infinityedge.model.Model;
 import pt.hidrogine.infinityedge.object.Asteroid;
 import pt.hidrogine.infinityedge.object.BillBoard;
 import pt.hidrogine.infinityedge.object.Bullet;
@@ -29,7 +29,6 @@ import pt.hidrogine.infinityedge.object.Cloud;
 import pt.hidrogine.infinityedge.object.Object3D;
 import pt.hidrogine.infinityedge.object.Properties;
 import pt.hidrogine.infinityedge.object.SpaceShip;
-import pt.hidrogine.infinityedge.model.Model;
 import pt.hidrogine.infinityedge.object.Team;
 import pt.hidrogine.infinityedge.util.FileString;
 import pt.hidrogine.infinityedge.util.ShaderProgram;

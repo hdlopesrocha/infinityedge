@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pt.hidrogine.infinityedge.activity.Renderer;
-import pt.hidrogine.infinityedge.model.Model;
 import pt.hidrogine.infinityedge.model.Model3D;
 
 /**

@@ -3,7 +3,6 @@ package pt.hidrogine.infinityedge.scene;
 
 import android.content.Context;
 import android.opengl.GLES20;
-import android.os.Debug;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,7 +10,6 @@ import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import hidrogine.math.Vector3;
 import hidrogine.math.Matrix;
 import hidrogine.math.Quaternion;
 import hidrogine.math.Vector3;

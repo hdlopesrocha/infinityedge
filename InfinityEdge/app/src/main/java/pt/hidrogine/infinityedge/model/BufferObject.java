@@ -2,12 +2,7 @@ package pt.hidrogine.infinityedge.model;
 
 import android.opengl.GLES20;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-import java.util.ArrayList;
 
 import hidrogine.math.IBufferObject;
 import pt.hidrogine.infinityedge.util.Material;
