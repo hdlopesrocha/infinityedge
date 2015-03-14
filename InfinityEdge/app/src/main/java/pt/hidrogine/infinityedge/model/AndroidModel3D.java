@@ -1,9 +1,6 @@
 package pt.hidrogine.infinityedge.model;
 
-import android.content.Context;
-
 import java.io.InputStream;
-
 import hidrogine.math.Camera;
 import hidrogine.math.Group;
 import hidrogine.math.IBufferBuilder;
@@ -16,7 +13,6 @@ import hidrogine.math.Quaternion;
 import pt.hidrogine.infinityedge.activity.Renderer;
 import pt.hidrogine.infinityedge.util.ShaderProgram;
 import pt.hidrogine.infinityedge.util.TextureLoader;
-
 
 public class AndroidModel3D extends Model3D {
 
