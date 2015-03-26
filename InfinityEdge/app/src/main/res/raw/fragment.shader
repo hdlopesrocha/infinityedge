@@ -43,8 +43,8 @@ void main()
     gl_FragColor.xyz += u_AmbientColor.xyz;
 
     float outside = u_Far - distance;
-    if(outside < 64.0){
-        gl_FragColor.w *= outside/64.0;
+    if(outside < 128.0){
+        gl_FragColor.w *= outside/128.0;
     }
 
   }

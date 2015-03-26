@@ -58,7 +58,7 @@ public class AndroidModel3D extends Model3D {
     }
 
     public void draw(ShaderProgram shader, Camera camera, Matrix matrix) {
-        shader.applyCamera(Renderer.camera, matrix);
+        shader.applyCamera(camera, matrix);
         for (Group g : groups) {
             for (IBufferObject ib : g.getBuffers()) {
 

@@ -17,6 +17,8 @@ import java.util.TreeMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import hidrogine.math.Matrix;
+import hidrogine.math.Quaternion;
 import hidrogine.math.Space;
 import hidrogine.math.Vector3;
 import hidrogine.math.VisibleObjectHandler;
@@ -43,6 +45,10 @@ public abstract class Scene {
     private int size;
     private float time=0;
     private TreeMap<String,Team> teams = new TreeMap<String,Team>();
+    private static final Vector3 TEMP_VECTOR = new Vector3();
+    private static final Quaternion TEMP_ROTATION = new Quaternion();
+    private static final Matrix TEMP_MATRIX = new Matrix();
+
 
     public void update(float delta_t){
         time+=delta_t;
@@ -122,10 +128,10 @@ public abstract class Scene {
 
                 shader.disableLight();
                 for (Vector3 light : mod.getLights()) {
-                    Vector3 rot = new Vector3(light).transform(obj.getRotation()).add(obj.getPosition());
-                    BillBoard billBoard = new BillBoard(rot, Renderer.flare2);
-                    billBoard.getRotation().set(Renderer.camera.getRotation()).conjugate();
-                    Renderer.flare2.draw(shader, Renderer.camera, billBoard.getModelMatrix());
+                    TEMP_VECTOR.set(light).transform(obj.getRotation()).add(obj.getPosition());
+                    TEMP_MATRIX.identity().transform(TEMP_ROTATION.set(Renderer.camera.getRotation()).conjugate());
+                    TEMP_MATRIX.translate(TEMP_VECTOR);
+                    Renderer.flare2.draw(shader, Renderer.camera, TEMP_MATRIX);
                 }
                 shader.enableLight();
                 shader.setDiffuseColor(1, 1, 1, 1);
@@ -135,9 +141,10 @@ public abstract class Scene {
 
 
             if(obj instanceof Bullet) {
-                BillBoard billBoard = new BillBoard(obj.getPosition(),Renderer.flare);
-                billBoard.getRotation().set(Renderer.camera.getRotation()).conjugate();
-                Renderer.flare.draw(shader, Renderer.camera, billBoard.getModelMatrix());
+                TEMP_MATRIX.identity().transform(TEMP_ROTATION.set(Renderer.camera.getRotation()).conjugate());
+                TEMP_MATRIX.translate(obj.getPosition());
+
+                Renderer.flare.draw(shader, Renderer.camera, TEMP_MATRIX);
                 shader.enableLight();
                 shader.setDiffuseColor(1, 1, 1, 1);
             }
